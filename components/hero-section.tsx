@@ -57,7 +57,7 @@ export function HeroSection() {
       <div className="absolute bottom-4 xs:bottom-8 sm:bottom-12 md:bottom-16 right-4 xs:right-6 sm:right-8 md:right-12 w-12 xs:w-16 sm:w-20 md:w-28 h-12 xs:h-16 sm:h-20 md:h-28 bg-[#2B6CB0] rounded-full opacity-15 animate-pulse-slow" style={{ animationDelay: "1s" }}></div>
       <div className="absolute bottom-8 xs:bottom-12 sm:bottom-16 md:bottom-24 left-4 xs:left-6 sm:left-8 md:left-8 w-10 xs:w-12 sm:w-14 md:w-16 h-10 xs:h-12 sm:h-14 md:h-16 bg-[#FF69B4] rounded-full opacity-10 animate-pulse-slow" style={{ animationDelay: "1.5s" }}></div>
 
-      <div className="container max-w-[90%] xs:max-w-[85%] sm:max-w-4xl md:max-w-5xl lg:max-w-7xl mx-auto px-4 xs:px-6 sm:px-8 md:px-12 lg:px-16 relative z-10"> {/* z-10 to stay below navbar */}
+      <div className="container max-w-[90%] xs:max-w-[85%] sm:max-w-4xl md:max-w-5xl lg:max-w-7xl mx-auto px-4 xs:px-6 sm:px-8 md:px-12 lg:px-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-12 md:gap-16 items-center">
           <div className="text-center lg:text-left animate-fade-in">
             <div className="inline-flex items-center space-x-2 bg-[#E2E8F0] text-[#2B6CB0] px-3 xs:px-4 sm:px-5 md:px-6 py-1.5 xs:py-2 sm:py-2.5 md:py-3 rounded-full text-xs xs:text-sm sm:text-base font-bold mb-4 xs:mb-6 sm:mb-8 shadow-md border border-[#E2E8F0]">
@@ -80,67 +80,66 @@ export function HeroSection() {
             </h1>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 xs:gap-6 sm:gap-8 md:gap-10 justify-center lg:justify-start mb-4 xs:mb-6 sm:mb-8 md:mb-12">
-  <Link href="https://meet.google.com/vjj-cfpx-dav?pli=1" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <VideoIcon className="w-4 h-4 mr-2" /> G-Meet
-    </Button>
-  </Link>
+              <Link href="https://meet.google.com/vjj-cfpx-dav?pli=1" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <VideoIcon className="w-4 h-4 mr-2" /> G-Meet
+                </Button>
+              </Link>
 
-  <Link href="https://meet.jit.si/TelanganaChessAcademy" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <Play className="w-4 h-4 mr-2" /> Start Call
-    </Button>
-  </Link>
+              <Link href="https://meet.jit.si/TelanganaChessAcademy" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <Play className="w-4 h-4 mr-2" /> Start Call
+                </Button>
+              </Link>
 
-  <Link href="https://meet.google.com/wuk-nfie-mgx" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <Play className="w-4 h-4 mr-2" /> Call Naresh
-    </Button>
-  </Link>
+              <Link href="https://meet.google.com/wuk-nfie-mgx" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#2B6CB0] text-[#2B6CB0] hover:bg-[#2B6CB0] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <Play className="w-4 h-4 mr-2" /> Call Naresh
+                </Button>
+              </Link>
 
-  <Link href="https://meet.google.com/atu-ziid-ojg" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <Sparkles className="w-4 h-4 mr-2" /> TCS Meeting
-    </Button>
-  </Link>
+              <Link href="https://meet.google.com/atu-ziid-ojg" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" /> TCS Meeting
+                </Button>
+              </Link>
 
-  <Link href="https://meet.google.com/uux-vyxa-pgq" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <BellIcon className="w-4 h-4 mr-2" /> BCA Meeting
-    </Button>
-  </Link>
+              <Link href="https://meet.google.com/uux-vyxa-pgq" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <BellIcon className="w-4 h-4 mr-2" /> BCA Meeting
+                </Button>
+              </Link>
 
-  <Link href="https://meet.google.com/mxj-uwyj-vzp" target="_blank" className="cursor-pointer w-full sm:w-auto">
-    <Button
-      size="sm"
-      variant="outline"
-      className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
-    >
-      <BellIcon className="w-4 h-4 mr-2" /> Call Rohith
-    </Button>
-  </Link>
-</div>
-
+              <Link href="https://meet.google.com/mxj-uwyj-vzp" target="_blank" className="cursor-pointer w-full sm:w-auto">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-2 border-[#06402B] text-[#06402B] hover:bg-[#06402B] hover:text-white font-bold px-3 xs:px-4 py-1.5 xs:py-2 rounded-full shadow-md text-xs xs:text-sm sm:text-base md:text-base transition-all duration-300 w-full"
+                >
+                  <BellIcon className="w-4 h-4 mr-2" /> Call Rohith
+                </Button>
+              </Link>
+            </div>
 
             <p className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-[#4A5568] mb-4 xs:mb-6 sm:mb-8 md:mb-10 max-w-xl xs:max-w-2xl leading-relaxed font-medium mx-auto lg:mx-0">
               Bharat chess academy empowers you with world-class training from FIDE-rated coaches. Build unshakeable skills, dominate the board, and rise to the top of the chess world.
@@ -189,26 +188,16 @@ export function HeroSection() {
                       <div
                         key={i}
                         className="aspect-square flex items-center justify-center text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold transition-all duration-200 hover:scale-105 cursor-pointer"
-                        style={{ backgroundColor: isLight ? "#FFFFFF" : "#000000", color: isLight ? "#000000" : "#FFFFFF" }}
+                        style={{
+                          backgroundColor: isLight ? "#f0d9b5" : "#b58863",
+                          color: isLight ? "#000000" : "#FFFFFF",
+                        }}
                       >
                         <span>{piece}</span>
                       </div>
                     );
                   })}
                 </div>
-              </div>
-
-              <div className="absolute top-1 xs:top-2 sm:top-3 md:top-4 right-1 xs:right-2 sm:right-3 md:right-4 bg-[#2B6CB0] text-white px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-1 xs:py-1.5 sm:py-2 rounded-full text-xs xs:text-sm font-bold animate-bounce-slow shadow-md">
-                🔥 Live Matches
-              </div>
-              <div className="absolute bottom-1 xs:bottom-2 sm:bottom-3 md:bottom-4 left-1 xs:left-2 sm:left-3 md:left-4 bg-[#2B6CB0] text-white px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-1 xs:py-1.5 sm:py-2 rounded-full text-xs xs:text-sm font-bold animate-bounce-slow shadow-md" style={{ animationDelay: "0.5s" }}>
-                🤖 AI Insights
-              </div>
-              <div className="absolute bottom-1 xs:bottom-2 sm:bottom-3 md:bottom-4 right-1 xs:right-2 sm:right-6 md:right-10 bg-[#2B6CB0] text-white px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-1 xs:py-1.5 sm:py-2 rounded-full text-xs xs:text-sm font-bold animate-float-slow shadow-sm" style={{ animationDelay: "1s" }}>
-                ⚡ Expert Tips
-              </div>
-              <div className="absolute top-1 xs:top-8 sm:top-12 md:top-16 left-1 xs:left-2 sm:left-6 md:left-8 bg-[#FF69B4] text-white px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-1 xs:py-1.5 sm:py-2 rounded-full text-xs xs:text-sm font-bold animate-float-slow shadow-sm" style={{ animationDelay: "1.5s" }}>
-                🌟 Pro Strategies
               </div>
             </div>
           </div>
