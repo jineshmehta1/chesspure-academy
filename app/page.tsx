@@ -8,11 +8,13 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       <main>
-        <HeroSection />
+        {/* <HeroSection />
         <StatsSection />
         <EventsPreview />
         <DemoBookingCTA />
-        <TestimonialsSection />
+        <TestimonialsSection /> */}
+        <h1>Sorry we are currently down</h1>
+      </main>
     </div>
   )
 }
