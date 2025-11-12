@@ -10,10 +10,10 @@ const termsSection = [
     title: "General Terms",
     icon: FileText,
     content: [
-      "Bharat chess academy reserves all right to change, deny or reschedule any class, both online and offline.",
+      "Chesspure academy reserves all right to change, deny or reschedule any class, both online and offline.",
       "Governing law (jurisdiction): This Agreement shall be governed by and construed in accordance with the laws and the company is based in Telangana (Hyderabad).",
       "Termination: Classes may be terminated mutually once service agreement has ended.",
-      "Intellectual Property: Bharat chess academy defends its coaches and employees from intellectual property infringement liabilities.",
+      "Intellectual Property: Chesspure academy defends its coaches and employees from intellectual property infringement liabilities.",
     ],
   },
   {
@@ -50,7 +50,7 @@ export default function TermsPage() {
               Terms and Privacy Policy
             </h1>
             <p className="text-green-100 max-w-2xl mx-auto">
-              Please read these legal terms carefully before using Bharat chess academy services.
+              Please read these legal terms carefully before using Chesspure academy services.
             </p>
           </motion.div>
         </div>

@@ -1,154 +1,205 @@
+"use client";
+
+import { useEffect, useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, Users, Trophy, Target } from "lucide-react";
+import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
+
+// Brand Colors
+const primaryColor = "#5C1F1C";
+const accentColor = "#FFC727";
+const white = "#FFFFFF";
+const fontFamily = "'Poppins', 'Montserrat', 'Nunito', sans-serif";
 
 export function TestimonialsSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const { ref: statsRef, inView: statsInView } = useInView({ threshold: 0.3, triggerOnce: true });
+
   const testimonials = [
     {
       id: 1,
-      name: "Jyothi Yadav",
-      role: "Intermediate Player",
+      name: "Priya Sharma",
+      role: "Parent & Student",
       rating: 5,
       content:
-        "My daughter has improved tremendously since joining the academy. The instructors are patient, knowledgeable, and make learning chess fun and engaging.",
-      image: "/jyothi.png",
-      bgColorClass: "bg-purple-50",
-      borderColorClass: "border-purple-200",
-      starColorClass: "text-purple-600",
+        "My son started at 6 years old and now plays in national tournaments. The coaches are patient, fun, and truly care about each child.",
+      image: "/demo-priya.jpg",
     },
     {
       id: 2,
-      name: "Khilend Sahu",
+      name: "Rohan Mehta",
       role: "Adult Beginner",
       rating: 5,
       content:
-        "I started as a complete beginner and now I'm competing in local tournaments. The structured curriculum and personalized attention made all the difference.",
-      image: "/khilend.png",
-      bgColorClass: "bg-blue-50",
-      borderColorClass: "border-blue-200",
-      starColorClass: "text-blue-600",
+        "I never thought I'd enjoy chess, but the structured lessons and live practice games made it addictive. Up 400 ELO in 4 months!",
+      image: "/demo-rohan.jpg",
     },
     {
       id: 3,
-      name: "Arjun Biru",
-      role: "intermediate Player",
+      name: "Ananya Desai",
+      role: "Intermediate Player",
       rating: 5,
       content:
-        "The online coaching sessions are fantastic! I can learn from expert coaches from the comfort of my home. My rating has increased by 300 points in 6 months.",
-      image: "/arjun.png",
-      bgColorClass: "bg-green-50",
-      borderColorClass: "border-green-200",
-      starColorClass: "text-green-600",
+        "The tactical puzzles and endgame drills are gold. My coach gives personalized feedback — I just won my first rated tournament!",
+      image: "/demo-ananya.jpg",
     },
     {
       id: 4,
-      name: "Dandu Ravi",
+      name: "Vikram Singh",
       role: "Tournament Player",
       rating: 5,
       content:
-        "The academy's focus on both tactical and strategic understanding has elevated my game to the next level. I recently won my first regional tournament!",
-      image: "/dandu.png",
-      bgColorClass: "bg-pink-50",
-      borderColorClass: "border-pink-200",
-      starColorClass: "text-pink-600",
+        "Best decision for serious improvement. Weekly analysis sessions + opening prep helped me break 1800 rating.",
+      image: "/demo-vikram.jpg",
     },
     {
       id: 5,
-      name: "Krarjun gaud",
-      role: "Parent of 8-year-old",
+      name: "Little Aryan",
+      role: "Age 8, Chess Prodigy",
       rating: 5,
       content:
-        "The coaches here understand how to work with young children. My son looks forward to every lesson and has developed excellent concentration skills.",
-      image: "/gaud.png",
-      bgColorClass: "bg-purple-50",
-      borderColorClass: "border-purple-200",
-      starColorClass: "text-purple-600",
+        "I love the fun puzzles and story-based lessons! My teacher says I’m getting really good at checkmates!",
+      image: "/demo-aryan.jpg",
     },
     {
       id: 6,
-      name: "Chandu Shekhar",
-      role: "Student",
+      name: "Neha Kapoor",
+      role: "Working Professional",
       rating: 5,
       content:
-        "Never thought I could learn chess, but the patient instructors proved me wrong. Chess has become my favorite hobby and mental exercise.",
-      image: "/andu.png",
-      bgColorClass: "bg-blue-50",
-      borderColorClass: "border-blue-200",
-      starColorClass: "text-blue-600",
+        "Flexible online classes fit my schedule. The community tournaments are exciting — I even beat a 1500-rated player!",
+      image: "/demo-neha.jpg",
     },
   ];
 
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 3) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
+  // Manual navigation
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const visibleTestimonials = [
+    ...testimonials.slice(currentIndex),
+    ...testimonials.slice(0, currentIndex),
+  ].slice(0, 3);
+
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F5F7FA] via-[#E2E8F0] to-[#2B6CB0]">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#2D3748] mb-4">
-            What Our Students Say
-          </h2>
-          <p className="text-lg text-[#4A5568] max-w-2xl mx-auto">
-            Hear from our community of chess enthusiasts about their learning journey and achievements at our academy.
-          </p>
-        </div>
+    <>
+      {/* Embedded Animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 15px rgba(255, 199, 39, 0.3); }
+          50% { box-shadow: 0 0 30px rgba(255, 199, 39, 0.6); }
+        }
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-slideIn { animation: slideIn 0.6s ease-out forwards; }
+        .animate-pulseGlow { animation: pulseGlow 2s infinite ease-in-out; }
+      `}</style>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((testimonial) => (
-            <Card
-              key={testimonial.id}
-              className={`${testimonial.bgColorClass} hover-lift border-2 ${testimonial.borderColorClass} hover:border-opacity-70 transition-all duration-300`}
+      <section
+        className="py-20 bg-white overflow-hidden"
+        style={{ fontFamily }}
+      >
+        <div className="container mx-auto px-4">
+          {/* Gradient Heading */}
+          <div className="text-center mb-16">
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-4 bg-[#5C1F1C] bg-clip-text text-transparent"
+              
             >
-              <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 fill-current ${testimonial.starColorClass}`}
-                    />
-                  ))}
-                </div>
-
-                <div className="relative mb-4">
-                  <Quote className="h-8 w-8 text-current absolute -top-2 -left-2 text-opacity-20" />
-                  <p className="text-[#4A5568] italic pl-6">"{testimonial.content}"</p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <img
-                    src={testimonial.image || "/placeholder.svg"}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-opacity-20 border-current"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-[#2D3748]">{testimonial.name}</h4>
-                    <p className="text-sm text-[#4A5568]">{testimonial.role}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <div className="bg-white rounded-lg p-8 border border-[#E2E8F0]">
-            <h3 className="text-2xl font-bold text-[#2D3748] mb-4">Join Our Success Stories</h3>
-            <p className="text-[#4A5568] mb-6 max-w-2xl mx-auto">
-              Whether you're a complete beginner or looking to improve your competitive play, our academy provides the perfect environment for chess growth and achievement.
+              Student Success Stories
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Real students, real progress. See how ChessPure Academy transforms beginners into champions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#2B6CB0]">500+</div>
-                <div className="text-sm text-[#4A5568]">Happy Students</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#9F7AEA]">95%</div>
-                <div className="text-sm text-[#4A5568]">Satisfaction Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#2B6CB0]">50+</div>
-                <div className="text-sm text-[#4A5568]">Tournament Winners</div>
-              </div>
+          </div>
+
+          {/* Auto-Rotating Carousel */}
+          <div className="relative max-w-6xl mx-auto mb-16" ref={testimonialsRef}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {visibleTestimonials.map((testimonial, idx) => (
+                <Card
+                  key={`${testimonial.id}-${currentIndex}`}
+                  className={`
+                    bg-gradient-to-b from-[#5C1F1C] to-[#4A1815] 
+                    text-white border border-amber-300/30 
+                    p-6 transition-all duration-700 
+                    hover:scale-105 hover:shadow-2xl 
+                    hover:shadow-amber-500/30 
+                    animate-slideIn
+                  `}
+                  style={{ animationDelay: `${idx * 0.2}s` }}
+                >
+                  <CardContent className="p-0">
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 fill-amber-400 text-amber-400"
+                        />
+                      ))}
+                    </div>
+
+                    {/* Quote */}
+                    <div className="relative mb-5">
+                      <Quote className="absolute -top-3 -left-2 w-8 h-8 text-amber-400/30" />
+                      <p className="text-amber-50 italic pl-6 leading-relaxed text-sm">
+                        "{testimonial.content}"
+                      </p>
+                    </div>
+
+                    {/* Avatar + Name */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-pulseGlow">
+                        {testimonial.name.charAt(0)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white">{testimonial.name}</h4>
+                        <p className="text-amber-200 text-xs">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-8">
+              {[...Array(Math.ceil(testimonials.length / 3))].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goToSlide(i * 3)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    Math.floor(currentIndex / 3) === i
+                      ? "bg-amber-500 w-8"
+                      : "bg-gray-400"
+                  }`}
+                />
+              ))}
             </div>
           </div>
+
+
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

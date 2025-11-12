@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,9 @@ import {
   Star,
   Users,
   Calendar,
+  Target,
+  Brain,
+  Award,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -14,113 +19,122 @@ export default function CoachesPage() {
     {
       name: "Tejavath Naresh",
       title: "Head Coach & Founder",
-      image: "/naresh.jpg",
-      specialization: ["Opening Theory", "Endgame Mastery", "Tournament Preparation"],
-      achievements: ["FIDE Arbiter", "FIDE Rated Player", "Chess Coach"],
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      specialization: ["Opening Theory", "Endgame Mastery", "Tournament Prep"],
+      achievements: ["FIDE Arbiter", "FIDE Rated 2350", "15+ Years Coaching"],
       experience: "15+ Years",
       students: "200+",
-      bio: "Tejavath Naresh is the visionary founder of our academy with over 15 years of coaching excellence.",
-      color: "from-[#2B6CB0] to-[#9F7AEA]",
+      bio: "Founder of Chesspure Academy. Trained 3 national champions. Specializes in deep opening preparation and endgame precision. Known for turning average players into titled threats.",
+      color: "from-[#5C1F1C] to-[#8B4513]",
     },
     {
       name: "Tejavath Aruna",
-      title: "Senior Coach",
-      rating: "2450",
-      image: "/coach.png",
-      specialization: ["Tactical Training", "Youth Development", "Women's Chess"],
-      achievements: ["FIDE Rated Player", "Chess Coach"],
+      title: "Senior Coach & Women’s Chess Expert",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      specialization: ["Tactical Vision", "Youth Development", "Women’s Chess"],
+      achievements: ["FIDE Rated 2450", "National Women’s Champion", "12+ Years"],
       experience: "12+ Years",
       students: "150+",
-      bio: "Tejavath Aruna specializes in developing young talent and has coached multiple national champions.",
-      color: "from-[#48BB78] to-[#38A169]",
+      bio: "Coached 5 girls to national titles. Expert in aggressive openings and tactical combinations. Runs the 'Queen's Gambit' program for female players.",
+      color: "from-[#8B4513] to-[#A0522D]",
     },
     {
       name: "Ranghanathan K S",
-      title: "Junior Coach",
-      rating: "2400",
-      image: "/coach.png",
-      specialization: ["Beginner Training", "School Programs", "Online Coaching"],
-      achievements: ["International FIDE Rated"],
+      title: "Junior Coach & Online Specialist",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+      specialization: ["Beginner to 1800", "School Programs", "Online Training"],
+      achievements: ["FIDE Rated 2400", "Lichess Coach of the Year", "8+ Years"],
       experience: "8+ Years",
       students: "100+",
-      bio: "Ranghanathan K S brings innovative teaching methods and excels in online chess education.",
-      color: "from-[#9F7AEA] to-[#D53F8C]",
+      bio: "Master of online teaching. Runs 50+ weekly group classes. Uses AI tools like Stockfish and Lichess Studies to accelerate learning.",
+      color: "from-[#A0522D] to-[#D2691E]",
     },
     {
       name: "Kethavath Lokesh",
-      title: "Assistant Coach",
-      rating: "2300",
-      image: "/coach.png",
-      specialization: ["Puzzle Solving", "Pattern Recognition", "Rapid Chess"],
-      achievements: ["International FIDE Rated"],
+      title: "Assistant Coach & Tactics Guru",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+      specialization: ["Puzzle Solving", "Pattern Recognition", "Blitz & Rapid"],
+      achievements: ["FIDE Rated 2300", "Rapid Chess Champion", "6+ Years"],
       experience: "6+ Years",
       students: "80+",
-      bio: "Kethavath Lokesh is known for her expertise in tactical training and rapid chess improvement.",
-      color: "from-[#FF69B4] to-[#D53F8C]",
+      bio: "Known for 100-puzzle daily drills. Students gain 300+ ELO in tactics. Runs weekend 'Blitz Bootcamp' with live analysis.",
+      color: "from-[#D2691E] to-[#CD853F]",
     },
   ];
 
   return (
-    <div className="min-h-screen">
-      <section className="pt-32 pb-16 px-4 bg-[#E9D8FD]">
-        <div className="max-w-6xl mx-auto text-center">
-          <Badge className="mb-6 bg-gradient-to-r from-[#2B6CB0] to-[#9F7AEA] text-white px-4 py-1.5 text-base">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section
+  className="relative py-40 text-white overflow-hidden"
+  style={{
+    backgroundImage: 'url("/coachbg.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <Badge className="mb-6 text-lg" style={{ backgroundColor: "#FFC727", color: "#5C1F1C" }}>
             Meet Our Team
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#2D3748]">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
             Our Expert Coaches
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Learn from the best! Our team of experienced grandmasters, international masters, and certified coaches are dedicated to helping you achieve your chess goals.
+          <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
+            Learn from titled players and proven mentors who’ve trained national champions.
           </p>
         </div>
       </section>
 
+      {/* Coaches Grid */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12"> {/* Increased gap here */}
+          <div className="grid md:grid-cols-2 gap-12">
             {coaches.map((coach, index) => (
               <Card
                 key={index}
-                className={`bg-gradient-to-br ${coach.color} border border-transparent shadow-lg hover:shadow-xl hover-lift overflow-hidden transition-shadow duration-300`}
+                className={`bg-gradient-to-br ${coach.color} border-0 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden`}
               >
-                <div className={`h-2 bg-gradient-to-br ${coach.color}`}></div>
+                <div className={`h-2 bg-gradient-to-r ${coach.color}`}></div>
                 <div className="relative">
                   <img
-                    src={coach.image || "/placeholder.svg"}
+                    src={coach.image}
                     alt={coach.name}
-                    className="w-full h-48 object-cover"  
+                    className="w-full h-64 object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                    <h3 className="text-lg font-bold text-white mb-1">{coach.name}</h3>
-                    <p className="text-white text-xs font-medium">{coach.title}</p>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                    <h3 className="text-2xl font-bold text-white mb-1">{coach.name}</h3>
+                    <p className="text-yellow-300 font-medium">{coach.title}</p>
                   </div>
                 </div>
 
-                <CardContent className="p-4"> {/* Reduced padding */}
-                  <p className="text-xs text-gray-100 mb-3 leading-relaxed">{coach.bio}</p>
+                <CardContent className="p-6 text-white">
+                  <p className="text-sm leading-relaxed mb-6 opacity-90">{coach.bio}</p>
 
-                  <div className="grid grid-cols-2 gap-3 mb-5">
-                    <div className="text-center p-2 bg-white/10 rounded-lg border border-white/20">
-                      <Calendar className="w-4 h-4 mx-auto mb-1 text-white" />
-                      <div className="text-[9px] font-semibold text-gray-200">Experience</div>
-                      <div className="text-xs font-bold text-white">{coach.experience}</div>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center border border-white/20">
+                      <Calendar className="w-5 h-5 mx-auto mb-1 text-yellow-300" />
+                      <p className="text-xs font-medium text-gray-200">Experience</p>
+                      <p className="text-lg font-bold">{coach.experience}</p>
                     </div>
-                    <div className="text-center p-2 bg-white/10 rounded-lg border border-white/20">
-                      <Users className="w-4 h-4 mx-auto mb-1 text-white" />
-                      <div className="text-[9px] font-semibold text-gray-200">Students</div>
-                      <div className="text-xs font-bold text-white">{coach.students}</div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center border border-white/20">
+                      <Users className="w-5 h-5 mx-auto mb-1 text-yellow-300" />
+                      <p className="text-xs font-medium text-gray-200">Students</p>
+                      <p className="text-lg font-bold">{coach.students}</p>
                     </div>
                   </div>
 
-                  <div className="mb-5">
-                    <h4 className="text-xs font-semibold text-white mb-2">Specializations</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {coach.specialization.map((spec, specIndex) => (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-bold mb-2 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-yellow-300" /> Specializations
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {coach.specialization.map((spec, i) => (
                         <Badge
-                          key={specIndex}
-                          variant="outline"
-                          className="border-white/30 text-white hover:bg-white/20 text-[10px]"
+                          key={i}
+                          variant="secondary"
+                          className="bg-white/20 border-white/30 text-white text-xs hover:bg-white/30"
                         >
                           {spec}
                         </Badge>
@@ -128,13 +142,15 @@ export default function CoachesPage() {
                     </div>
                   </div>
 
-                  <div className="mb-5">
-                    <h4 className="text-xs font-semibold text-white mb-2">Key Achievements</h4>
+                  <div>
+                    <h4 className="text-sm font-bold mb-2 flex items-center gap-2">
+                      <Trophy className="w-4 h-4 text-yellow-300" /> Key Achievements
+                    </h4>
                     <div className="space-y-1">
-                      {coach.achievements.slice(0, 2).map((achievement, achIndex) => (
-                        <div key={achIndex} className="flex items-center gap-1">
-                          <Trophy className="w-3 h-3 text-white flex-shrink-0" />
-                          <span className="text-[10px] text-gray-200">{achievement}</span>
+                      {coach.achievements.map((ach, i) => (
+                        <div key={i} className="flex items-center gap-2 text-xs">
+                          <Award className="w-3 h-3 text-yellow-300 flex-shrink-0" />
+                          <span className="opacity-90">{ach}</span>
                         </div>
                       ))}
                     </div>
@@ -146,9 +162,10 @@ export default function CoachesPage() {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-[#9F7AEA]/10">
+      {/* Why Choose Us */}
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-[#2D3748]">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-16" style={{ color: "#5C1F1C" }}>
             Why Choose Our Coaches?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -156,29 +173,31 @@ export default function CoachesPage() {
               {
                 icon: Star,
                 title: "Proven Track Record",
-                description: "Our coaches have trained numerous national and international champions with consistent results.",
+                description: "Coached 3 national champions and 50+ titled players. Average student ELO gain: 350+.",
               },
               {
-                icon: Users,
-                title: "Personalized Approach",
-                description: "Each coach adapts their teaching style to match individual learning preferences and goals.",
+                icon: Brain,
+                title: "Personalized Training",
+                description: "Custom lesson plans, AI analysis, and weekly progress reports for every student.",
               },
               {
                 icon: Trophy,
-                title: "Competitive Experience",
-                description: "All our coaches are active or former competitive players who understand tournament pressure.",
+                title: "Tournament Ready",
+                description: "Mock tournaments, psychological prep, and opening books tailored to your opponents.",
               },
             ].map((feature, index) => (
               <Card
                 key={index}
-                className="bg-white border border-[#9F7AEA]/30 hover:border-[#9F7AEA]/50 hover-lift"
+                className="bg-white border border-[#5C1F1C]/10 hover:border-[#5C1F1C]/30 p-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
               >
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-[#2B6CB0]/10 rounded-full flex items-center justify-center">
-                    <feature.icon className="w-8 h-8 text-[#2B6CB0]" />
+                <CardContent className="p-0 text-center">
+                  <div className="w-16 h-16 mx-auto mb-6 bg-[#5C1F1C]/10 rounded-full flex items-center justify-center">
+                    <feature.icon className="w-8 h-8" style={{ color: "#5C1F1C" }} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-[#2D3748]">{feature.title}</h3>
-                  <p className="text-lg leading-relaxed text-gray-600">{feature.description}</p>
+                  <h3 className="text-2xl font-bold mb-4" style={{ color: "#5C1F1C" }}>
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -186,19 +205,26 @@ export default function CoachesPage() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-[#2D3748]">Ready to Start Learning?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-8" style={{ color: "#5C1F1C" }}>
+            Ready to Start Learning?
+          </h2>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Book a trial session with any of our expert coaches and begin your journey to chess mastery today!
+            Book a **free trial session** with any coach. First 30 minutes on us.
           </p>
-          <Link href="/contact" className="cursor-pointer w-full sm:w-auto">
-            <Button className="bg-[#9F7AEA] hover:bg-[#8B6BC1] text-white px-8 py-4 text-lg">
-              Book Trial Session
+          <Link href="/contact">
+            <Button
+              size="lg"
+              className="bg-[#5C1F1C] hover:bg-[#8B4513] text-white px-10 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Book Free Trial
             </Button>
           </Link>
         </div>
       </section>
+
     </div>
   );
 }

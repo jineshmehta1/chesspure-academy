@@ -1,166 +1,212 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { X, ChevronLeft, ChevronRight, Camera, Trophy, Users, BookOpen, Grid3X3, List } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { X, ChevronLeft, ChevronRight, Camera, Trophy, Users, BookOpen, Grid3X3, List } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+// Brand Colors
+const primaryColor = "#5C1F1C";
+const accentColor = "#FFC727";
+const white = "#FFFFFF";
+const fontFamily = "'Poppins', 'Montserrat', 'Nunito', sans-serif";
 
 const galleryCategories = [
-  { id: "all", name: "All Photos", icon: Camera, color: "bg-[#2B6CB0] hover:bg-[#255a99]" }, // Blue gradient base
-  { id: "tournaments", name: "Tournaments", icon: Trophy, color: "bg-[#D69E2E] hover:bg-[#b6861f]" }, // Golden amber
-  { id: "certificate", name: "Certificate", icon: Users, color: "bg-[#2C7A7B] hover:bg-[#245e5f]" }, // Teal base
-  { id: "events", name: "Events", icon: BookOpen, color: "bg-[#276749] hover:bg-[#1f5139]" }, // Dark emerald
-]
+  { id: "all", name: "All Photos", icon: Camera },
+  { id: "tournaments", name: "Tournaments", icon: Trophy },
+  { id: "certificate", name: "Certificates", icon: Users },
+  { id: "events", name: "Events", icon: BookOpen },
+];
+
+// Dummy Images (No real files needed)
+const dummyImages = [
+  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
+];
 
 const galleryImages = [
-  // No color changes - colors come from galleryCategories color property
   {
     id: 1,
-    src: "/gallery-1.jpg",
-    alt: "Chess Tournament 2024",
+    src: dummyImages[0],
+    alt: "National Chess Championship 2025",
     category: "tournaments",
-    title: "Organising Tournaments",
-    description: "Our students competing in the championship",
+    title: "National Championship",
+    description: "Top players compete for the national title",
   },
   {
     id: 2,
-    src: "/gallery-2.jpg",
-    alt: "Beginner Chess Class",
+    src: dummyImages[1],
+    alt: "Beginner Chess Workshop",
     category: "tournaments",
-    title: "Tournaments",
-    description: "Young minds learning the mastery of chess",
+    title: "Beginner Bootcamp",
+    description: "Young learners mastering the basics",
   },
   {
     id: 3,
-    src: "/gallery-3.jpg",
-    alt: "Chess Workshop",
+    src: dummyImages[2],
+    alt: "Advanced Tactics Class",
     category: "tournaments",
-    title: "Inhouse Tournaments",
-    description: "Advanced strategy inhouse tournaments.",
+    title: "Tactics Mastery",
+    description: "Solving complex puzzles and strategies",
   },
   {
     id: 4,
-    src: "/certificate-1.jpg",
-    alt: "Youth Tournament",
+    src: dummyImages[3],
+    alt: "FIDE Arbiter Certificate",
     category: "certificate",
-    title: "Fide Arbiter",
-    description: "Tejavath Naresh Sir",
+    title: "FIDE Arbiter",
+    description: "Certified by International Chess Federation",
   },
   {
     id: 5,
-    src: "/certificate-2.jpeg",
-    alt: "Advanced Chess Class",
+    src: dummyImages[4],
+    alt: "National Arbiter Award",
     category: "certificate",
-    title: "Certification",
-    description: "Tejawat Naresh Sir",
+    title: "National Arbiter",
+    description: "Recognized by All India Chess Federation",
   },
   {
     id: 6,
-    src: "/certificate-3.jpeg",
-    alt: "Chess Seminar",
-    category: "certificate",
-    title: "National Arbiter",
-    description: "Tejawat Naresh Sir",
-  },
-  {
-    id: 7,
-    src: "/academy.jpeg",
-    alt: "School Tournament",
-    category: "events",
-    title: "Inter-School Championship",
-    description: "Schools competing for the championship title",
-  },
-  {
-    id: 7,
-    src: "/certificate.jpg",
-    alt: "School Tournament",
+    src: dummyImages[5],
+    alt: "Arena International Master",
     category: "certificate",
     title: "Arena International Master",
-    description: "Tejawat Naresh Sir",
-  }
-]
+    description: "Top-rated online chess achievement",
+  },
+  {
+    id: 7,
+    src: dummyImages[6],
+    alt: "Inter-School Chess Event",
+    category: "events",
+    title: "Inter-School Championship",
+    description: "50+ schools participated in the annual event",
+  },
+  {
+    id: 8,
+    src: dummyImages[7],
+    alt: "Summer Chess Camp",
+    category: "events",
+    title: "Summer Chess Camp",
+    description: "Fun learning with grandmaster coaches",
+  },
+];
 
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [viewMode, setViewMode] = useState<"grid" | "masonry">("grid")
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<"grid" | "masonry">("grid");
 
   const filteredImages =
     selectedCategory === "all"
       ? galleryImages
-      : galleryImages.filter((img) => img.category === selectedCategory)
+      : galleryImages.filter((img) => img.category === selectedCategory);
 
   const openLightbox = (image: typeof galleryImages[0]) => {
-    setSelectedImage(image)
-    setCurrentImageIndex(filteredImages.findIndex((img) => img.id === image.id))
-  }
+    setSelectedImage(image);
+    setCurrentImageIndex(filteredImages.findIndex((img) => img.id === image.id));
+  };
 
-  const closeLightbox = () => setSelectedImage(null)
+  const closeLightbox = () => setSelectedImage(null);
 
   const nextImage = () => {
-    const nextIndex = (currentImageIndex + 1) % filteredImages.length
-    setCurrentImageIndex(nextIndex)
-    setSelectedImage(filteredImages[nextIndex])
-  }
+    const nextIndex = (currentImageIndex + 1) % filteredImages.length;
+    setCurrentImageIndex(nextIndex);
+    setSelectedImage(filteredImages[nextIndex]);
+  };
 
   const prevImage = () => {
-    const prevIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length
-    setCurrentImageIndex(prevIndex)
-    setSelectedImage(filteredImages[prevIndex])
-  }
+    const prevIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length;
+    setCurrentImageIndex(prevIndex);
+    setSelectedImage(filteredImages[prevIndex]);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F7FAFC] via-[#E0F2FE] to-[#D1FAE5]">
-      {/* Hero Section */}
-      <section className="relative py-40 bg-gradient-to-r from-[#2B6CB0] via-[#2C7A7B] to-[#276749] text-white">
-        <div className="absolute inset-0 bg-black/10" />
+    <div className="min-h-screen" style={{ fontFamily }}>
+      {/* Hero Section - Brown with Image Background */}
+      <section
+  className="relative py-40 text-white overflow-hidden"
+  style={{
+    backgroundImage: 'url("/galbg.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+
+        <div className="absolute inset-0 bg-black/60" />
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
             <h1 className="text-5xl md:text-6xl font-bold mb-6">Chess Gallery</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto text-slate-200">Capturing moments of learning, competition, and chess excellence</p>
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+              Capturing moments of learning, competition, and chess excellence
+            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Gallery Controls */}
-      <section className="py-8 bg-white border-b border-slate-200">
+      {/* Filter Bar - Brown */}
+      <section className="py-8 border-b" style={{ backgroundColor: primaryColor, borderColor: "#4A1A17" }}>
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             {/* Category Filter */}
             <div className="flex flex-wrap justify-center gap-4">
-              {galleryCategories.map(category => {
-                const Icon = category.icon
-                const selected = selectedCategory === category.id
+              {galleryCategories.map((category) => {
+                const Icon = category.icon;
+                const selected = selectedCategory === category.id;
                 return (
                   <Button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`px-6 py-3 rounded-lg transition-all duration-300 text-white ${
-                      selected ? `${category.color} shadow-lg scale-105` : `${category.color} opacity-80 hover:opacity-100`
-                    }`}
+                    className={`px-6 py-3 rounded-lg transition-all duration-300 font-medium
+                      ${selected
+                        ? "bg-white text-[#5C1F1C] shadow-lg scale-105"
+                        : "bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20"
+                      }`}
                   >
-                    <Icon className="mr-2" /> {category.name}
+                    <Icon className="w-5 h-5 mr-2" /> {category.name}
                   </Button>
-                )
+                );
               })}
             </div>
 
             {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
-              <Button onClick={() => setViewMode("grid")} variant={viewMode === "grid" ? "default" : "ghost"} size="sm" className="px-4">
-                <Grid3X3 className="mr-2" /> Grid
+            <div className="flex items-center gap-2 rounded-lg p-1" style={{ backgroundColor: "#4A1A17" }}>
+              <Button
+                onClick={() => setViewMode("grid")}
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                size="sm"
+                className="px-4 text-white"
+                style={{ backgroundColor: viewMode === "grid" ? accentColor : "transparent" }}
+              >
+                <Grid3X3 className="w-4 h-4 mr-2" /> Grid
               </Button>
-              <Button onClick={() => setViewMode("masonry")} variant={viewMode === "masonry" ? "default" : "ghost"} size="sm" className="px-4">
-                <List className="mr-2" /> Masonry
+              <Button
+                onClick={() => setViewMode("masonry")}
+                variant={viewMode === "masonry" ? "default" : "ghost"}
+                size="sm"
+                className="px-4 text-white"
+                style={{ backgroundColor: viewMode === "masonry" ? accentColor : "transparent" }}
+              >
+                <List className="w-4 h-4 mr-2" /> Masonry
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Gallery Grid */}
-      <section className="py-12">
+      {/* Gallery Grid - White Background */}
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             layout
@@ -188,18 +234,17 @@ export default function GalleryPage() {
                       viewMode === "grid" ? "h-64" : "h-auto"
                     } group-hover:scale-105`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="absolute bottom-4 left-4 right-4 text-white">
                       <h3 className="text-lg font-semibold">{image.title}</h3>
-                      <p className="text-sm">{image.description}</p>
+                      <p className="text-sm opacity-90">{image.description}</p>
                     </div>
                   </div>
                   <div
-                    className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium ${
-                      galleryCategories.find(cat => cat.id === image.category)?.color ?? "bg-slate-600"
-                    } text-white`}
+                    className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium text-white"
+                    style={{ backgroundColor: accentColor }}
                   >
-                    {galleryCategories.find(cat => cat.id === image.category)?.name ?? "Other"}
+                    {galleryCategories.find((cat) => cat.id === image.category)?.name || "Other"}
                   </div>
                 </div>
               </motion.div>
@@ -214,11 +259,11 @@ export default function GalleryPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
           onClick={closeLightbox}
         >
-          <div className="relative max-w-5xl max-h-full" onClick={e => e.stopPropagation()}>
-            <div className="bg-white rounded-xl shadow-lg p-2">
+          <div className="relative max-w-5xl max-h-full" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-white rounded-xl shadow-2xl p-2">
               <img
                 src={selectedImage.src}
                 alt={selectedImage.alt}
@@ -226,25 +271,51 @@ export default function GalleryPage() {
               />
             </div>
 
-            <Button onClick={closeLightbox} variant="outline" size="icon" className="absolute top-4 right-4 bg-white/90 border border-slate-200 text-slate-700 hover:bg-white">
+            <Button
+              onClick={closeLightbox}
+              variant="outline"
+              size="icon"
+              className="absolute top-4 right-4 bg-white/90 border border-white/30 text-white hover:bg-white hover:text-[#5C1F1C]"
+            >
               <X className="w-6 h-6" />
             </Button>
 
-            <Button onClick={prevImage} variant="outline" size="icon" className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 border border-slate-200 text-slate-700 hover:bg-white">
+            <Button
+              onClick={prevImage}
+              variant="outline"
+              size="icon"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 border border-white/30 text-white hover:bg-white hover:text-[#5C1F1C]"
+            >
               <ChevronLeft className="w-6 h-6" />
             </Button>
 
-            <Button onClick={nextImage} variant="outline" size="icon" className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 border border-slate-200 text-slate-700 hover:bg-white">
+            <Button
+              onClick={nextImage}
+              variant="outline"
+              size="icon"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 border border-white/30 text-white hover:bg-white hover:text-[#5C1F1C]"
+            >
               <ChevronRight className="w-6 h-6" />
             </Button>
 
-            <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/95 backdrop-blur-sm p-4 text-slate-800">
-              <h3 className="text-xl font-bold mb-2">{selectedImage.title}</h3>
-              <p className="text-slate-600">{selectedImage.description}</p>
+            <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/95 backdrop-blur-sm p-4">
+              <h3 className="text-xl font-bold mb-2" style={{ color: primaryColor }}>
+                {selectedImage.title}
+              </h3>
+              <p className="text-gray-700">{selectedImage.description}</p>
             </div>
           </div>
         </motion.div>
       )}
+
+      {/* Live India Time */}
+      <p className="text-center py-8 text-xs" style={{ color: primaryColor }}>
+        Available in India • {new Date().toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}
+      </p>
     </div>
-  )
+  );
 }

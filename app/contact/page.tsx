@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea }  from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -21,8 +22,185 @@ import {
   Clock,
   Send,
   CheckCircle,
+  ChevronDown,
 } from "lucide-react";
-import Link from "next/link";
+
+// Brand Colors
+const primaryColor = "#5C1F1C";
+const accentColor = "#FFC727";
+const white = "#FFFFFF";
+const fontFamily = "'Poppins', 'Montserrat', 'Nunito', sans-serif";
+
+function GlowingOrb({
+  color = "blue",
+  size = 200,
+  position = { x: 50, y: 50 },
+}) {
+  return (
+    <motion.div
+      className="absolute rounded-full blur-xl opacity-20"
+      style={{
+        width: size,
+        height: size,
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+      }}
+      animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    />
+  );
+}
+
+function ThreeDCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    setRotate({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => setRotate({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className={`transform-gpu transition-all duration-200 ease-out ${className}`}
+      style={{
+        transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function FAQSection() {
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      q: "What time are the classes?",
+      a: "We run classes on weekdays 4 PM – 8 PM and weekends 9 AM – 6 PM. Morning, afternoon and evening batches are available. New batches start every month.",
+    },
+    {
+      q: "Are there any pre-requisites?",
+      a: "No prior chess knowledge is required. Our beginner program starts from the fundamentals and builds a strong foundation.",
+    },
+    {
+      q: "Can I get a discount?",
+      a: "Yes! Quarterly plans give 10% off, family packages and school-partnership discounts are also available.",
+    },
+    {
+      q: "Who will take my classes?",
+      a: "All sessions are conducted by FIDE-rated coaches (2000+ ELO) with an average of 8+ years teaching experience.",
+    },
+    {
+      q: "Is there a weekend-only batch?",
+      a: "Absolutely – we have dedicated Saturday & Sunday batches (9 AM – 6 PM). You can pick the slot that fits your schedule.",
+    },
+  ];
+
+  return (
+    <section className="py-20 bg-white relative overflow-hidden">
+      <GlowingOrb color="#FFC727" size={600} position={{ x: 15, y: 25 }} />
+      <GlowingOrb color="#FF6B35" size={500} position={{ x: 85, y: 75 }} />
+
+      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-start">
+        {/* Left – Title + CTA */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="space-y-6"
+        >
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+            Have <span className="block">Questions?</span>
+            <span style={{ color: primaryColor }}>We’re here to answer them.</span>
+          </h2>
+
+          <Button
+            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold text-lg px-8 py-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 group"
+          >
+            <Phone className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            Book a Free Trial
+          </Button>
+        </motion.div>
+
+        {/* Right – Accordion */}
+        <div className="space-y-4">
+          {faqs.map((item, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.08, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <ThreeDCard className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === idx ? null : idx)}
+                  className="w-full flex items-center justify-between p-5 text-left group"
+                >
+                  <div className="flex items-center gap-4">
+                    <motion.div
+                      animate={{ rotate: openFAQ === idx ? 90 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-orange-500"
+                    >
+                      <ChevronDown className="w-5 h-5" />
+                    </motion.div>
+                    <p className="text-lg font-medium text-gray-800">{item.q}</p>
+                  </div>
+                </button>
+
+                <AnimatePresence>
+                  {openFAQ === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 pt-2 border-t border-gray-200">
+                        <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                          {item.a}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+              </ThreeDCard>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -45,13 +223,6 @@ export default function ContactPage() {
     "Partnership Inquiry",
     "Media & Press",
     "Other",
-  ];
-
-  const faqs = [
-    { question: "What age groups do you accept?", answer: "We welcome all ages from 4 and up." },
-    { question: "Do you offer trial classes?", answer: "Yes, free trial classes available." },
-    { question: "What are your class timings?", answer: "Classes scheduled morning, afternoon, evening daily." },
-    { question: "Do you provide online coaching?", answer: "Yes, with interactive tools and personalized sessions." },
   ];
 
   const handleInputChange = (field: string, value: string) => {
@@ -89,86 +260,106 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#EDF2F7] to-[#E9D8FD]">
-      <section className="pt-16 sm:pt-24 md:pt-32 pb-8 sm:pb-12 md:pb-16 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <Badge className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-[#2B6CB0] to-[#9F7AEA] text-white px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base">
+    <div className="min-h-screen bg-white" style={{ fontFamily }}>
+      {/* Hero Section - Brown with Chess Image */}
+      <section
+  className="relative py-40 text-white overflow-hidden"
+  style={{
+    backgroundImage: 'url("/conbg.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <Badge className="mb-4" style={{ backgroundColor: accentColor, color: primaryColor }}>
             Get In Touch
           </Badge>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-[#2B6CB0] to-[#9F7AEA] bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
             Contact Us
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Ready to start your chess journey? We're here to help every step of the way.
           </p>
         </div>
       </section>
 
+      {/* Contact Form - Clean Layout */}
+      <section className="py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <Card className="shadow-xl border-0">
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: primaryColor }}>
+                Send a Message
+              </h2>
 
-
-      {/* Contact Form */}
-      <section className="py-8 sm:py-12 md:py-16 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-1 gap-4 sm:gap-6 md:gap-12">
-          <Card className="shadow-xl rounded">
-            <CardContent className="p-2 sm:p-4">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 md:mb-6 text-gray-800">Send a Message</h2>
               {isSubmitted ? (
-                <div className="text-center py-6 sm:py-8">
-                  <CheckCircle className="mx-auto w-12 sm:w-16 h-12 sm:h-16 mb-2 sm:mb-3 text-green-500" />
-                  <h3 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-green-600">Message Sent!</h3>
-                  <p className="text-gray-600 text-sm sm:text-base">Thank you for contacting us. We'll get back to you shortly.</p>
+                <div className="text-center py-12">
+                  <CheckCircle className="mx-auto w-16 h-16 mb-4" style={{ color: "#10B981" }} />
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: "#10B981" }}>
+                    Message Sent!
+                  </h3>
+                  <p className="text-gray-600">Thank you! We'll get back to you shortly.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name & Email */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name" className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Full Name *</Label>
+                      <Label htmlFor="name" className="font-semibold text-gray-700">
+                        Full Name *
+                      </Label>
                       <Input
                         id="name"
-                        name="name"
                         value={formData.name}
-                        onChange={e => handleInputChange("name", e.target.value)}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
                         required
-                        className="text-sm sm:text-base"
+                        className="mt-2"
+                        placeholder="John Doe"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Email *</Label>
+                      <Label htmlFor="email" className="font-semibold text-gray-700">
+                        Email *
+                      </Label>
                       <Input
                         type="email"
                         id="email"
-                        name="email"
                         value={formData.email}
-                        onChange={e => handleInputChange("email", e.target.value)}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
                         required
-                        className="text-sm sm:text-base"
+                        className="mt-2"
+                        placeholder="john@example.com"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {/* Phone & Inquiry Type */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="phone" className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Phone</Label>
+                      <Label htmlFor="phone" className="font-semibold text-gray-700">
+                        Phone
+                      </Label>
                       <Input
                         id="phone"
-                        name="phone"
                         value={formData.phone}
-                        onChange={e => handleInputChange("phone", e.target.value)}
-                        className="text-sm sm:text-base"
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                        className="mt-2"
+                        placeholder="+91 9876543210"
                       />
                     </div>
                     <div>
-                      <Label className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Inquiry Type *</Label>
+                      <Label className="font-semibold text-gray-700">Inquiry Type *</Label>
                       <Select
                         value={formData.inquiryType}
-                        onValueChange={value => handleInputChange("inquiryType", value)}
+                        onValueChange={(value) => handleInputChange("inquiryType", value)}
                       >
-                        <SelectTrigger className="w-full text-sm sm:text-base">
-                          <SelectValue placeholder="Select Inquiry Type" />
+                        <SelectTrigger className="mt-2">
+                          <SelectValue placeholder="Select type" />
                         </SelectTrigger>
                         <SelectContent>
-                          {inquiryTypes.map((type, i) => (
-                            <SelectItem key={i} value={type} className="text-sm sm:text-base">
+                          {inquiryTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
                               {type}
                             </SelectItem>
                           ))}
@@ -177,36 +368,47 @@ export default function ContactPage() {
                     </div>
                   </div>
 
+                  {/* Subject */}
                   <div>
-                    <Label htmlFor="subject" className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Subject *</Label>
+                    <Label htmlFor="subject" className="font-semibold text-gray-700">
+                      Subject *
+                    </Label>
                     <Input
                       id="subject"
-                      name="subject"
                       value={formData.subject}
-                      onChange={e => handleInputChange("subject", e.target.value)}
+                      onChange={(e) => handleInputChange("subject", e.target.value)}
                       required
-                      className="text-sm sm:text-base"
+                      className="mt-2"
+                      placeholder="Course inquiry"
                     />
                   </div>
 
+                  {/* Message */}
                   <div>
-                    <Label htmlFor="message" className="block text-gray-700 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Message *</Label>
+                    <Label htmlFor="message" className="font-semibold text-gray-700">
+                      Message *
+                    </Label>
                     <Textarea
                       id="message"
-                      name="message"
                       value={formData.message}
-                      onChange={e => handleInputChange("message", e.target.value)}
-                      rows={4}
+                      onChange={(e) => handleInputChange("message", e.target.value)}
+                      rows={5}
                       required
-                      className="text-sm sm:text-base"
+                      className="mt-2"
+                      placeholder="Tell us how we can help..."
                     />
                   </div>
 
+                  {/* Submit */}
                   <Button
                     type="submit"
-                    className="w-full py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg bg-gradient-to-r from-[#2B6CB0] to-[#9F7AEA] hover:from-[#265b94] hover:to-[#9672c8] text-white"
+                    className="w-full py-6 text-lg font-semibold rounded-xl"
+                    style={{
+                      backgroundColor: primaryColor,
+                      color: white,
+                    }}
                   >
-                    Send Message <Send className="inline ml-1 sm:ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+                    Send Message <Send className="ml-2 w-5 h-5" />
                   </Button>
                 </form>
               )}
@@ -215,53 +417,52 @@ export default function ContactPage() {
         </div>
       </section>
 
-            <section className="py-8 sm:py-12 md:py-16 px-4 bg-white">
+      {/* How to Reach Us */}
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 md:mb-12 text-center bg-gradient-to-r from-[#2B6CB0] to-[#9F7AEA] bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold text-center mb-12" style={{ color: primaryColor }}>
             How to Reach Us
           </h2>
 
-          {/* Contact Info Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {[
               {
                 icon: MapPin,
                 title: "Visit Us",
                 details: [
-                  "11-13-75 Road No 2, Alkapuri, Kothapet, Hyderabad-500035, Above Pragathi Model School",
+                  "11-13-75 Road No 2, Alkapuri, Kothapet, Hyderabad-500035",
+                  "Above Pragathi Model School",
                 ],
-                color: "from-[#2B6CB0] to-[#9F7AEA]",
               },
               {
                 icon: Phone,
                 title: "Call Us",
                 details: ["Office: +91-9864646481", "WhatsApp: +91-9864646481"],
-                color: "from-[#48BB78] to-[#38A169]",
               },
               {
                 icon: Mail,
                 title: "Email",
-                details: ["bharatchessacademy@gmail.com"],
-                color: "from-[#9F7AEA] to-[#D53F8C]",
+                details: ["Chesspureacademy@gmail.com"],
               },
               {
                 icon: Clock,
                 title: "Hours",
                 details: ["Mon-Sun: 10 AM to 8 PM"],
-                color: "from-[#ED8936] to-[#DD6B20]",
               },
-            ].map(({ icon: Icon, title, details, color }, idx) => (
-              <Card key={idx} className="shadow-lg rounded overflow-hidden">
-                <div className={`h-1 bg-gradient-to-r ${color}`}></div>
-                <CardContent className="p-2 sm:p-4 text-center">
+            ].map(({ icon: Icon, title, details }, idx) => (
+              <Card key={idx} className="text-center border-0 shadow-lg">
+                <CardContent className="p-6">
                   <div
-                    className={`w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-2 sm:mb-4 rounded-full flex items-center justify-center bg-gradient-to-r ${color}`}
+                    className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: primaryColor }}
                   >
-                    <Icon className="text-white w-6 sm:w-8 h-6 sm:h-8" />
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-gray-800">{title}</h3>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: primaryColor }}>
+                    {title}
+                  </h3>
                   {details.map((d, i) => (
-                    <p key={i} className="text-gray-600 text-xs sm:text-sm">
+                    <p key={i} className="text-gray-600 text-sm">
                       {d}
                     </p>
                   ))}
@@ -270,10 +471,9 @@ export default function ContactPage() {
             ))}
           </div>
 
-          {/* Embedded Google Map: KEEP EXACT DIMENSIONS & PLACEMENT */}
-          <div className="w-full h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
+          <div className="w-full h-96 rounded-xl overflow-hidden shadow-lg">
             <iframe
-              title="Bharat Chess Academy Location"
+              title="Chesspure Academy Location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.8902674607427!2d78.50310917499912!3d17.322055904365462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9992786f1711%3A0xc2a03126f2eff5c4!2s11-13-75%20Road%20No%202%2C%20Alkapuri%2C%20Kothapet%2C%20Hyderabad%2C%20Telangana%20500035!5e0!3m2!1sen!2sin!4v1694871600000!5m2!1sen!2sin"
               width="100%"
               height="100%"
@@ -281,24 +481,14 @@ export default function ContactPage() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
         </div>
       </section>
 
-      <section className="bg-white py-8 sm:py-12 md:py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 text-gray-800">Frequently Asked Questions</h2>
-          {faqs.map((faq, i) => (
-            <Card key={i} className="border border-gray-300 mb-2 sm:mb-3 md:mb-4">
-              <CardContent className="p-2 sm:p-4">
-                <h3 className="font-semibold text-base sm:text-lg mb-1 sm:mb-2">{faq.question}</h3>
-                <p className="text-gray-600 text-sm sm:text-base">{faq.answer}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <FAQSection />
+
+  
     </div>
   );
 }

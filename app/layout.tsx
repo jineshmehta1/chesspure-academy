@@ -9,7 +9,7 @@ import { Footer } from "@/components/footer"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Bharat chess academy - Professional Chess Training",
+  title: "Chesspure academy - Professional Chess Training",
   description:
     "Professional chess training academy with FIDE rated coaches. Learn chess from beginners to advanced levels with online and offline classes.",
   generator: "v0.app",
@@ -32,8 +32,8 @@ export default function RootLayout({
         {
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "Bharat Chess Academy",
-          "url": "https://bharatchessacademy.com",
+          "name": "Chesspure Academy",
+          "url": "https://chesspure.com",
           "sameAs": [
             "https://thegeniuschessacademy.com"
           ]
