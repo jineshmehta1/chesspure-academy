@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavItem {
   name: string;
@@ -21,6 +22,12 @@ export function Header() {
     {
       name: "About",
       href: "/about",
+      hasDropdown: true,
+      dropdownItems: [
+        { name: "Our Story", href: "/about#story" },
+        { name: "Mission & Vision", href: "/about#mission" },
+        { name: "Achievements", href: "/about#achievements" },
+      ],
     },
     { name: "Courses", href: "/courses" },
     { name: "Our Coaches", href: "/coaches" },
@@ -30,168 +37,197 @@ export function Header() {
     { name: "Contact", href: "/contact" },
   ];
 
-  const primaryColor = "#ffffff"; // White background for menu
-  const accentColor = "#FFD700"; // Gold/yellow from logo text
-  const accentColorClass = "text-gray-800"; // Tailwind friendly class instead of template literal
-  const primaryColorClass = "bg-[#ffffff]"; // Tailwind friendly class
-
   return (
-    <header className={`bg-[#ffffff] shadow-md fixed w-full z-40`}>
-      <div className="flex flex-col lg:flex-row justify-between items-center px-4 md:px-10 py-4">
-        {/* Left Section: Logo + Academy Title */}
-        <div className="flex items-center w-full lg:w-auto">
-          <Link href="/" className="flex items-center space-x-2 md:space-x-4">
-            <div className="w-10 h-10 flex items-center justify-center">
-              <Image
-                src="/logo.webp"
-                alt="Chesspure Academy Logo"
-                width={55}
-                height={55}
-              />
-            </div>
-            <span
-              className={`${accentColorClass} text-base md:text-xl font-semibold tracking-tight whitespace-nowrap`}
-            >
-              Chesspure Academy
-            </span>
-          </Link>
+    <>
+      <style jsx>{`
+        :root {
+          --primary: #ffffff;
+          --accent: #FFD700;
+          --text-dark: #5C1F1C;
+          --text-light: #74292F;
+        }
+        .nav-link {
+          @apply font-medium text-gray-800 hover:text-[#5C1F1C] transition-colors duration-200;
+        }
+        .dropdown-link {
+          @apply block px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-[#5C1F1C] transition-colors;
+        }
+        @media (hover: none) {
+          .nav-link:hover {
+            color: inherit;
+          }
+        }
+      `}</style>
 
-          {/* Mobile Menu Toggle */}
-          <div className="lg:hidden ml-auto flex items-center">
+      <header className="bg-white shadow-md fixed w-full z-50 top-0">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 lg:h-20">
+            {/* Logo + Title */}
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                <Image
+                  src="/logo.webp"
+                  alt="Chesspure Academy Logo"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-contain transition-transform group-hover:scale-110"
+                  priority
+                />
+              </div>
+              <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 tracking-tight">
+                Chesspure <span className="text-yellow-500">Academy</span>
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+              {navItems.map((item) => (
+                <div key={item.name} className="relative group">
+                  {item.hasDropdown ? (
+                    <>
+                      <button
+                        onClick={() => setIsAboutOpen(!isAboutOpen)}
+                        className="nav-link flex items-center space-x-1 px-3 py-2 rounded-md text-base"
+                        aria-expanded={isAboutOpen}
+                        aria-haspopup="true"
+                      >
+                        <span>{item.name}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 ${
+                            isAboutOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {isAboutOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-yellow-200 overflow-hidden z-50"
+                            onClick={() => setIsAboutOpen(false)}
+                          >
+                            {item.dropdownItems?.map((dropItem) => (
+                              <Link
+                                key={dropItem.name}
+                                href={dropItem.href}
+                                className="dropdown-link"
+                              >
+                                {dropItem.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      className="nav-link px-3 py-2 rounded-md text-base whitespace-nowrap"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* Mobile Menu Button */}
             <button
-              className={`${accentColorClass} p-1 hover:text-[#5C1F1C]`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100 transition-colors"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={
-                    isMobileMenuOpen
-                      ? "M6 18L18 6M6 6l12 12"
-                      : "M4 6h16M4 12h16m-7 6h7"
-                  }
-                />
-              </svg>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isMobileMenuOpen ? "close" : "open"}
+                  initial={{ opacity: 0, rotate: -180 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {isMobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </button>
           </div>
         </div>
 
-        {/* Right Section: Desktop Navbar */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 mt-4 lg:mt-0 w-full lg:w-auto">
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10">
-            {navItems.map((item) => (
-              <div key={item.name} className="relative">
-                {item.hasDropdown ? (
-                  <div className="relative">
-                    <button
-                      onClick={() => setIsAboutOpen(!isAboutOpen)}
-                      className={`${accentColorClass} hover:text-white font-medium py-1 px-1.5 text-md whitespace-nowrap flex items-center space-x-1`}
-                      aria-expanded={isAboutOpen}
-                      aria-haspopup="true"
-                    >
-                      <span>{item.name}</span>
-                      <ChevronDown className="w-3 h-3" />
-                    </button>
-                    {isAboutOpen && (
-                      <div
-                        className={`${primaryColorClass} absolute top-full left-0 mt-1 w-40 rounded shadow-lg border border-yellow-500 z-10`}
-                      >
-                        {item.dropdownItems?.map((dropItem) => (
-                          <Link
-                            key={dropItem.name}
-                            href={dropItem.href}
-                            className={`block px-3 py-1.5 text-md hover:bg-yellow-400 hover:text-[#5C1F1C] whitespace-nowrap`}
-                            onClick={() => setIsAboutOpen(false)}
-                          >
-                            {dropItem.name}
-                          </Link>
-                        ))}
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden bg-white border-t border-gray-200 overflow-hidden"
+            >
+              <div className="px-4 py-3 space-y-1">
+                {navItems.map((item) => (
+                  <div key={item.name}>
+                    {item.hasDropdown ? (
+                      <div>
+                        <button
+                          onClick={() => setIsAboutOpen(!isAboutOpen)}
+                          className="flex items-center justify-between w-full text-left nav-link py-3 text-base font-medium"
+                        >
+                          <span>{item.name}</span>
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform ${
+                              isAboutOpen ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+
+                        <AnimatePresence>
+                          {isAboutOpen && (
+                            <motion.div
+                              initial={{ height: 0 }}
+                              animate={{ height: "auto" }}
+                              exit={{ height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-4 mt-1 space-y-1 overflow-hidden"
+                            >
+                              {item.dropdownItems?.map((dropItem) => (
+                                <Link
+                                  key={dropItem.name}
+                                  href={dropItem.href}
+                                  className="block py-2 pl-3 pr-4 text-sm text-gray-700 hover:bg-yellow-50 hover:text-[#5C1F1C] rounded-md"
+                                  onClick={() => {
+                                    setIsAboutOpen(false);
+                                    setIsMobileMenuOpen(false);
+                                  }}
+                                >
+                                  {dropItem.name}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="block nav-link py-3 text-base font-medium"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
                     )}
                   </div>
-                ) : item.name === "Online Coaching" ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${accentColorClass} hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className={`${accentColorClass} hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
-                  >
-                    {item.name}
-                  </Link>
-                )}
+                ))}
               </div>
-            ))}
-          </nav>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className={`${primaryColorClass} text-[#5C1F1C] py-3 px-4 space-y-2 lg:hidden`}>
-          {navItems.map((item) => (
-            <div key={item.name}>
-              {item.hasDropdown ? (
-                <div>
-                  <button
-                    onClick={() => setIsAboutOpen(!isAboutOpen)}
-                    className="flex items-center justify-between w-full hover:text-yellow-500 py-2 text-base"
-                    aria-expanded={isAboutOpen}
-                    aria-haspopup="true"
-                  >
-                    <span>{item.name}</span>
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                  {isAboutOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {item.dropdownItems?.map((dropItem) => (
-                        <Link
-                          key={dropItem.name}
-                          href={dropItem.href}
-                          className="block hover:bg-yellow-400 hover:text-[#5C1F1C] py-2 text-sm px-3"
-                          onClick={() => {
-                            setIsAboutOpen(false);
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          {dropItem.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : item.name === "Online Coaching" ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-yellow-500 py-2 text-base block"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="hover:text-yellow-500 py-2 text-base block"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </header>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+    </>
   );
 }
