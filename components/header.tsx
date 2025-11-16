@@ -22,12 +22,6 @@ export function Header() {
     {
       name: "About",
       href: "/about",
-      hasDropdown: true,
-      dropdownItems: [
-        { name: "Our Story", href: "/about#story" },
-        { name: "Mission & Vision", href: "/about#mission" },
-        { name: "Achievements", href: "/about#achievements" },
-      ],
     },
     { name: "Courses", href: "/courses" },
     { name: "Our Coaches", href: "/coaches" },
