@@ -1,8 +1,11 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useRef } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Trophy,
   Star,
@@ -11,71 +14,125 @@ import {
   Target,
   Brain,
   Award,
+  Filter,
+  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+
+// Brand Colors
+const primaryColor = "#5C1F1C";
+const accentColor = "#FFC727";
+
+function ThreeDCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
+    setRotate({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => setRotate({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className={`transform-gpu transition-all duration-300 ease-out ${className}`}
+      style={{
+        transform: `perspective(1200px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.02 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function CoachesPage() {
   const coaches = [
     {
-      name: "Tejavath Naresh",
-      title: "Head Coach & Founder",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-      specialization: ["Opening Theory", "Endgame Mastery", "Tournament Prep"],
-      achievements: ["FIDE Arbiter", "FIDE Rated 2350", "15+ Years Coaching"],
-      experience: "15+ Years",
-      students: "200+",
-      bio: "Founder of Chesspure Academy. Trained 3 national champions. Specializes in deep opening preparation and endgame precision. Known for turning average players into titled threats.",
-      color: "from-[#5C1F1C] to-[#8B4513]",
+      id: 1,
+      name: "Arjun Malhotra",
+      title: "Head Coach & Grandmaster",
+      image: "/demo/coach-1.jpg",
+      specialization: ["Middlegame Strategy", "Endgame Precision", "Opening Repertoire"],
+      achievements: ["FIDE Grandmaster", "ELO 2580", "20+ Years Coaching"],
+      experience: "20+ Years",
+      students: "320+",
+      bio: "Former national champion with 5 gold medals. Trains India’s top U-18 talents. Known for deep positional understanding and custom opening labs.",
+      level: "Advanced",
+      date: "2025-11-20",
     },
     {
-      name: "Tejavath Aruna",
-      title: "Senior Coach & Women’s Chess Expert",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-      specialization: ["Tactical Vision", "Youth Development", "Women’s Chess"],
-      achievements: ["FIDE Rated 2450", "National Women’s Champion", "12+ Years"],
-      experience: "12+ Years",
-      students: "150+",
-      bio: "Coached 5 girls to national titles. Expert in aggressive openings and tactical combinations. Runs the 'Queen's Gambit' program for female players.",
-      color: "from-[#8B4513] to-[#A0522D]",
+      id: 2,
+      name: "Priya Sharma",
+      title: "Senior Coach & Women’s Chess Director",
+      image: "/demo/coach-2.jpg",
+      specialization: ["Tactical Combinations", "Psychological Prep", "Women’s Chess"],
+      achievements: ["International Master", "ELO 2420", "National Women’s Champion 2022"],
+      experience: "14+ Years",
+      students: "210+",
+      bio: "Runs the 'Rising Queens' program. Coached 8 girls to WIM/WFM titles. Expert in dynamic Sicilian and French Defense systems.",
+      level: "Intermediate",
+      date: "2025-11-22",
     },
     {
-      name: "Ranghanathan K S",
-      title: "Junior Coach & Online Specialist",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-      specialization: ["Beginner to 1800", "School Programs", "Online Training"],
-      achievements: ["FIDE Rated 2400", "Lichess Coach of the Year", "8+ Years"],
-      experience: "8+ Years",
-      students: "100+",
-      bio: "Master of online teaching. Runs 50+ weekly group classes. Uses AI tools like Stockfish and Lichess Studies to accelerate learning.",
-      color: "from-[#A0522D] to-[#D2691E]",
+      id: 3,
+      name: "Vikram Desai",
+      title: "Junior Coach & Online Chess Expert",
+      image: "/demo/coach-3.jpg",
+      specialization: ["Beginner to 2000", "AI Training Tools", "Lichess/Chess.com Mastery"],
+      achievements: ["FIDE Master", "ELO 2380", "Lichess Coach of the Year 2024"],
+      experience: "10+ Years",
+      students: "180+",
+      bio: "Pioneer in AI-assisted coaching. Uses Stockfish, Leela, and Lichess Studies. Runs 60+ weekly online group sessions.",
+      level: "Beginner",
+      date: "2025-11-25",
     },
     {
-      name: "Kethavath Lokesh",
-      title: "Assistant Coach & Tactics Guru",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
-      specialization: ["Puzzle Solving", "Pattern Recognition", "Blitz & Rapid"],
-      achievements: ["FIDE Rated 2300", "Rapid Chess Champion", "6+ Years"],
-      experience: "6+ Years",
-      students: "80+",
-      bio: "Known for 100-puzzle daily drills. Students gain 300+ ELO in tactics. Runs weekend 'Blitz Bootcamp' with live analysis.",
-      color: "from-[#D2691E] to-[#CD853F]",
+      id: 4,
+      name: "Neha Kapoor",
+      title: "Assistant Coach & Tactics Specialist",
+      image: "/demo/coach-4.jpg",
+      specialization: ["Pattern Recognition", "Puzzle Drills", "Blitz & Bullet"],
+      achievements: ["FIDE Rated 2290", "Asian Rapid Champion 2023", "7+ Years"],
+      experience: "7+ Years",
+      students: "140+",
+      bio: "Students solve 120 puzzles/day. Average ELO gain: 380 in 6 months. Runs weekend 'Tactics Marathon' with live commentary.",
+      level: "Intermediate",
+      date: "2025-11-28",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Hero Section */}
       <section
-  className="relative py-40 text-white overflow-hidden"
-  style={{
-    backgroundImage: 'url("/coachbg.png")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <Badge className="mb-6 text-lg" style={{ backgroundColor: "#FFC727", color: "#5C1F1C" }}>
+        className="relative py-40 text-white overflow-hidden"
+        style={{
+          backgroundImage: 'url("/coachbg.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/70 " />
+        <div className="max-w-6xl mx-auto text-center relative z-10 px-4">
+          <Badge className="mb-6 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
             Meet Our Team
           </Badge>
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
@@ -87,85 +144,117 @@ export default function CoachesPage() {
         </div>
       </section>
 
-      {/* Coaches Grid */}
+      {/* Coaches Grid - #5C1F1C GLASS CARDS (Same as Events) */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            {coaches.map((coach, index) => (
-              <Card
-                key={index}
-                className={`bg-gradient-to-br ${coach.color} border-0 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden`}
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-12">
+            {coaches.map((coach, i) => (
+              <motion.div
+                key={coach.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
               >
-                <div className={`h-2 bg-gradient-to-r ${coach.color}`}></div>
-                <div className="relative">
-                  <img
-                    src={coach.image}
-                    alt={coach.name}
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                    <h3 className="text-2xl font-bold text-white mb-1">{coach.name}</h3>
-                    <p className="text-yellow-300 font-medium">{coach.title}</p>
-                  </div>
-                </div>
-
-                <CardContent className="p-6 text-white">
-                  <p className="text-sm leading-relaxed mb-6 opacity-90">{coach.bio}</p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center border border-white/20">
-                      <Calendar className="w-5 h-5 mx-auto mb-1 text-yellow-300" />
-                      <p className="text-xs font-medium text-gray-200">Experience</p>
-                      <p className="text-lg font-bold">{coach.experience}</p>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center border border-white/20">
-                      <Users className="w-5 h-5 mx-auto mb-1 text-yellow-300" />
-                      <p className="text-xs font-medium text-gray-200">Students</p>
-                      <p className="text-lg font-bold">{coach.students}</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-sm font-bold mb-2 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-yellow-300" /> Specializations
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {coach.specialization.map((spec, i) => (
-                        <Badge
-                          key={i}
-                          variant="secondary"
-                          className="bg-white/20 border-white/30 text-white text-xs hover:bg-white/30"
-                        >
-                          {spec}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-bold mb-2 flex items-center gap-2">
-                      <Trophy className="w-4 h-4 text-yellow-300" /> Key Achievements
-                    </h4>
-                    <div className="space-y-1">
-                      {coach.achievements.map((ach, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs">
-                          <Award className="w-3 h-3 text-yellow-300 flex-shrink-0" />
-                          <span className="opacity-90">{ach}</span>
+                <ThreeDCard className="h-full rounded-3xl overflow-hidden shadow-2xl">
+                  <div
+                    className="bg-[#5C1F1C] p-1.5 rounded-3xl h-full"
+                    style={{
+                      background: `linear-gradient(135deg, #5C1F1C 0%, #8B4513 100%)`,
+                    }}
+                  >
+                    <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden">
+                      {/* Image */}
+                      <div className="relative h-72">
+                        <Image
+                          src={coach.image}
+                          alt={coach.name}
+                          fill
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute top-4 right-4">
+                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs">
+                            {coach.title.split(" ")[0]}
+                          </Badge>
                         </div>
-                      ))}
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6 text-gray-800">
+                        <h3 className="text-2xl md:text-3xl font-extrabold mb-1 text-[#5C1F1C] drop-shadow">
+                          {coach.name}
+                        </h3>
+                        <p className="text-[#FFC727] font-semibold text-lg mb-4">
+                          {coach.title}
+                        </p>
+
+                        <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+                          {coach.bio}
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          <div className="text-center bg-gradient-to-br from-[#5C1F1C]/10 to-[#8B4513]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
+                            <Calendar className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
+                            <p className="text-xs font-medium text-gray-600">Experience</p>
+                            <p className="font-bold text-[#5C1F1C] text-lg">{coach.experience}</p>
+                          </div>
+                          <div className="text-center bg-gradient-to-br from-[#8B4513]/10 to-[#A0522D]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
+                            <Users className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
+                            <p className="text-xs font-medium text-gray-600">Students</p>
+                            <p className="font-bold text-[#5C1F1C] text-lg">{coach.students}</p>
+                          </div>
+                        </div>
+
+                        <div className="mb-6">
+                          <h4 className="text-sm font-bold mb-3 flex items-center gap-2 text-[#FFC727]">
+                            <Target className="w-5 h-5" /> Specializations
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {coach.specialization.map((spec, idx) => (
+                              <Badge
+                                key={idx}
+                                className="bg-[#5C1F1C]/10 text-[#5C1F1C] border-[#5C1F1C]/20 text-xs"
+                              >
+                                {spec}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-bold mb-3 flex items-center gap-2 text-[#FFC727]">
+                            <Trophy className="w-5 h-5" /> Key Achievements
+                          </h4>
+                          <div className="space-y-2">
+                            {coach.achievements.map((ach, idx) => (
+                              <div key={idx} className="flex items-center gap-2 text-xs text-gray-700">
+                                <Award className="w-4 h-4 text-[#5C1F1C]" />
+                                <span>{ach}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <Link href="/contact" className="block mt-6">
+                          <Button
+                            className="w-full bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+                          >
+                            Book Trial <ArrowRight className="ml-2 w-5 h-5" />
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </ThreeDCard>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-white/60 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-16" style={{ color: "#5C1F1C" }}>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-16" style={{ color: primaryColor }}>
             Why Choose Our Coaches?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -188,16 +277,16 @@ export default function CoachesPage() {
             ].map((feature, index) => (
               <Card
                 key={index}
-                className="bg-white border border-[#5C1F1C]/10 hover:border-[#5C1F1C]/30 p-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                className="bg-white/90 backdrop-blur-md border border-[#5C1F1C]/10 hover:border-[#5C1F1C]/30 p-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
               >
                 <CardContent className="p-0 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-[#5C1F1C]/10 rounded-full flex items-center justify-center">
-                    <feature.icon className="w-8 h-8" style={{ color: "#5C1F1C" }} />
+                  <div className="w-16 h-16 mx-auto mb-6 bg-[#5C1F1C]/10 rounded-2xl flex items-center justify-center">
+                    <feature.icon className="w-9 h-9" style={{ color: primaryColor }} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4" style={{ color: "#5C1F1C" }}>
+                  <h3 className="text-2xl font-bold mb-4" style={{ color: primaryColor }}>
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  <p className="text-gray-700 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -206,25 +295,24 @@ export default function CoachesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-8" style={{ color: "#5C1F1C" }}>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-8" style={{ color: primaryColor }}>
             Ready to Start Learning?
           </h2>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Book a **free trial session** with any coach. First 30 minutes on us.
+          <p className="text-xl text-gray-700 mb-10 leading-relaxed">
+            Book a <strong className="text-[#5C1F1C]">free trial session</strong> with any coach. First 30 minutes on us.
           </p>
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-[#5C1F1C] hover:bg-[#8B4513] text-white px-10 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] px-12 py-8 text-xl font-bold rounded-full shadow-2xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
             >
               Book Free Trial
             </Button>
           </Link>
         </div>
       </section>
-
     </div>
   );
 }

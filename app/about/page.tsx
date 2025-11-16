@@ -217,7 +217,7 @@ export default function AboutPage() {
               {[
                 {
                   year: "2010",
-                  title: "Foundation in Hyderabad",
+                  title: "Foundation in Visakhapatnam",
                   description:
                     "Chesspure Academy was founded by Grandmaster Rajesh Kumar with just 10 students in a small room. The vision was simple: make chess accessible to every child in India. Early classes were held in community centers, and word spread fast through local tournaments.",
                   image: "/found.png",
@@ -228,7 +228,7 @@ export default function AboutPage() {
                   year: "2014",
                   title: "First National Champion",
                   description:
-                    "Our student, 12-year-old Arjun Mehta, won the Under-13 National Championship. This victory put Chesspure on the map. Parents from across Telangana started enrolling their children. We expanded to a dedicated 2,000 sq ft training center with 5 boards.",
+                    "Our student, 12-year-old Arjun Mehta, won the Under-13 National Championship. This victory put Chesspure on the map. Parents from across Andhra Pradesh started enrolling their children. We expanded to a dedicated 2,000 sq ft training center with 5 boards.",
                   image: "national.png",
                   position: "right",
                   icon: <Trophy className="w-6 h-6 text-white" />,
@@ -270,16 +270,16 @@ export default function AboutPage() {
                   <div className="hidden md:block w-1/2">
                     {event.position === "left" && (
                       <div className="flex justify-end pr-10">
-                        <Card className="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-lg border border-gray-200 hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-[#5C1F1C] p-6 md:p-8 rounded-xl shadow-lg max-w-lg border border-gray-200 hover:scale-105 transition-transform duration-300">
                           <img
                             src={event.image}
                             alt={event.title}
                             className="w-full h-48 object-cover rounded-lg mb-4"
                           />
-                          <h3 className="text-2xl font-bold mb-3" style={{ color: "#5C1F1C" }}>
+                          <h3 className="text-2xl font-bold mb-3" style={{ color: "#FFFFFF" }}>
                             {event.title}
                           </h3>
-                          <p className="text-gray-700 leading-relaxed">{event.description}</p>
+                          <p className="text-white leading-relaxed">{event.description}</p>
                         </Card>
                       </div>
                     )}
@@ -295,16 +295,16 @@ export default function AboutPage() {
                   <div className="hidden md:block w-1/2">
                     {event.position === "right" && (
                       <div className="flex justify-start pl-10">
-                        <Card className="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-lg border border-gray-200 hover:scale-105 transition-transform duration-300">
+                        <Card className="bg-[#5C1F1C] p-6 md:p-8 rounded-xl shadow-lg max-w-lg border border-gray-200 hover:scale-105 transition-transform duration-300">
                           <img
                             src={event.image}
                             alt={event.title}
                             className="w-full h-48 object-cover rounded-lg mb-4"
                           />
-                          <h3 className="text-2xl font-bold mb-3" style={{ color: "#5C1F1C" }}>
+                          <h3 className="text-2xl font-bold mb-3" style={{ color: "#ffffff" }}>
                             {event.title}
                           </h3>
-                          <p className="text-gray-700 leading-relaxed">{event.description}</p>
+                          <p className="text-white leading-relaxed">{event.description}</p>
                         </Card>
                       </div>
                     )}

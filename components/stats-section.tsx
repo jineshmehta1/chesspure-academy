@@ -183,11 +183,11 @@ export function StatsSection() {
 
             {/* RIGHT: Image */}
             <div className="flex justify-center lg:justify-end">
-              <div className="rounded-3xl overflow-hidden shadow-2xl max-w-md w-full">
+              <div className="">
                 <img
-                  src="/online-chess-class-interface.jpg"
+                  src="/statbg.png"
                   alt="Team working at desk"
-                  className="w-full h-auto object-cover"
+                  className=""
                 />
               </div>
             </div>

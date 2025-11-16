@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea }  from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -38,7 +38,7 @@ function GlowingOrb({
 }) {
   return (
     <motion.div
-      className="absolute rounded-full blur-xl opacity-20"
+      className="absolute rounded-full blur-3xl opacity-30"
       style={{
         width: size,
         height: size,
@@ -46,9 +46,9 @@ function GlowingOrb({
         top: `${position.y}%`,
         background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
       }}
-      animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+      animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
       transition={{
-        duration: 4,
+        duration: 5,
         repeat: Infinity,
         ease: "easeInOut",
       }}
@@ -73,8 +73,8 @@ function ThreeDCard({
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
     setRotate({ x: rotateX, y: rotateY });
   };
 
@@ -83,12 +83,13 @@ function ThreeDCard({
   return (
     <motion.div
       ref={cardRef}
-      className={`transform-gpu transition-all duration-200 ease-out ${className}`}
+      className={`transform-gpu transition-all duration-300 ease-out ${className}`}
       style={{
-        transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+        transform: `perspective(1200px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.02 }}
     >
       {children}
     </motion.div>
@@ -122,9 +123,9 @@ function FAQSection() {
   ];
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
-      <GlowingOrb color="#FFC727" size={600} position={{ x: 15, y: 25 }} />
-      <GlowingOrb color="#FF6B35" size={500} position={{ x: 85, y: 75 }} />
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+      <GlowingOrb color="#FFC727" size={600} position={{ x: 10, y: 20 }} />
+      <GlowingOrb color="#FF8C42" size={500} position={{ x: 90, y: 80 }} />
 
       <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-start">
         {/* Left – Title + CTA */}
@@ -133,66 +134,71 @@ function FAQSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="space-y-6"
+          className="space-y-8"
         >
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight">
             Have <span className="block">Questions?</span>
             <span style={{ color: primaryColor }}>We’re here to answer them.</span>
           </h2>
 
           <Button
-            className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold text-lg px-8 py-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 group"
+            className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] hover:from-[#FFD700] hover:to-[#FFC727] text-[#5C1F1C] font-bold text-lg px-10 py-7 rounded-full shadow-2xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300 group"
           >
-            <Phone className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            <Phone className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
             Book a Free Trial
           </Button>
         </motion.div>
 
-        {/* Right – Accordion */}
-        <div className="space-y-4">
+        {/* Right – Gradient Accordion */}
+        <div className="space-y-5">
           {faqs.map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.08, duration: 0.5 }}
+              transition={{ delay: idx * 0.1, duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <ThreeDCard className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md">
-                <button
-                  onClick={() => setOpenFAQ(openFAQ === idx ? null : idx)}
-                  className="w-full flex items-center justify-between p-5 text-left group"
+              <ThreeDCard className="rounded-2xl overflow-hidden shadow-xl border-0">
+                <div
+                  className="bg-gradient-to-br from-[#5C1F1C] via-[#8B4513] to-[#A0522D] p-1 rounded-2xl"
                 >
-                  <div className="flex items-center gap-4">
-                    <motion.div
-                      animate={{ rotate: openFAQ === idx ? 90 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-orange-500"
+                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl">
+                    <button
+                      onClick={() => setOpenFAQ(openFAQ === idx ? null : idx)}
+                      className="w-full flex items-center justify-between p-6 text-left group"
                     >
-                      <ChevronDown className="w-5 h-5" />
-                    </motion.div>
-                    <p className="text-lg font-medium text-gray-800">{item.q}</p>
-                  </div>
-                </button>
-
-                <AnimatePresence>
-                  {openFAQ === idx && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-5 pb-5 pt-2 border-t border-gray-200">
-                        <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                          {item.a}
-                        </p>
+                      <div className="flex items-center gap-4">
+                        <motion.div
+                          animate={{ rotate: openFAQ === idx ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="text-[#5C1F1C]"
+                        >
+                          <ChevronDown className="w-6 h-6" />
+                        </motion.div>
+                        <p className="text-lg font-semibold text-gray-800">{item.q}</p>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+                    </button>
+
+                    <AnimatePresence>
+                      {openFAQ === idx && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-6 pt-2 border-t border-gray-200">
+                            <p className="text-gray-600 leading-relaxed">
+                              {item.a}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
               </ThreeDCard>
             </motion.div>
           ))}
@@ -250,7 +256,7 @@ export default function ContactPage() {
           message: "",
           inquiryType: "",
         });
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setTimeout(() => setIsSubmitted(false), 4000);
       } else {
         alert("Error sending message.");
       }
@@ -260,184 +266,189 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily }}>
-      {/* Hero Section - Brown with Chess Image */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100" style={{ fontFamily }}>
+      {/* Hero Section */}
       <section
-  className="relative py-40 text-white overflow-hidden"
-  style={{
-    backgroundImage: 'url("/conbg.png")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
-        <div className="absolute inset-0 bg-black/60" />
+        className="relative py-40 text-white overflow-hidden"
+        style={{
+          backgroundImage: 'url("/conbg.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/70 " />
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <Badge className="mb-4" style={{ backgroundColor: accentColor, color: primaryColor }}>
+          <Badge className="mb-4 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
             Get In Touch
           </Badge>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
             Contact Us
           </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed">
             Ready to start your chess journey? We're here to help every step of the way.
           </p>
         </div>
       </section>
 
-      {/* Contact Form - Clean Layout */}
-      <section className="py-16 px-4">
-        <div className="max-w-3xl mx-auto">
-          <Card className="shadow-xl border-0">
-            <CardContent className="p-8">
-              <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: primaryColor }}>
-                Send a Message
-              </h2>
+  {/* Contact Form - 2 Column Layout (Image Left + Form Right) */}
+<section className="py-16 px-4">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-              {isSubmitted ? (
-                <div className="text-center py-12">
-                  <CheckCircle className="mx-auto w-16 h-16 mb-4" style={{ color: "#10B981" }} />
-                  <h3 className="text-2xl font-bold mb-2" style={{ color: "#10B981" }}>
-                    Message Sent!
-                  </h3>
-                  <p className="text-gray-600">Thank you! We'll get back to you shortly.</p>
+    {/* LEFT IMAGE */}
+    <motion.div
+      initial={{ opacity: 0, x: -40 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className="w-full h-full"
+    >
+      <img
+        src="/conknight.png"  // <-- change to your image
+        alt="Contact Illustration"
+        className="rounded-3xl w-full object-cover h-[650px]"
+      />
+    </motion.div>
+
+    {/* RIGHT FORM */}
+    <ThreeDCard className="rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-gradient-to-br from-[#5C1F1C] via-[#8B4513] to-[#A0522D] p-1.5 rounded-3xl">
+        <div className="bg-white/95 backdrop-blur-2xl rounded-3xl p-8">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-center" style={{ color: primaryColor }}>
+            Send a Message
+          </h2>
+
+          {isSubmitted ? (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-center py-16"
+            >
+              <CheckCircle className="mx-auto w-20 h-20 mb-6" style={{ color: "#10B981" }} />
+              <h3 className="text-3xl font-bold mb-3" style={{ color: "#10B981" }}>
+                Message Sent!
+              </h3>
+              <p className="text-gray-600 text-lg">
+                Thank you! We'll get back to you within 24 hours.
+              </p>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="name" className="font-semibold text-gray-800">Full Name *</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required
+                    className="mt-2 h-12 bg-white/80 border-gray-300 focus:border-[#5C1F1C]"
+                    placeholder="John Doe"
+                  />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name & Email */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="name" className="font-semibold text-gray-700">
-                        Full Name *
-                      </Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        required
-                        className="mt-2"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="font-semibold text-gray-700">
-                        Email *
-                      </Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        required
-                        className="mt-2"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                  </div>
+                <div>
+                  <Label htmlFor="email" className="font-semibold text-gray-800">Email *</Label>
+                  <Input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    required
+                    className="mt-2 h-12 bg-white/80 border-gray-300 focus:border-[#5C1F1C]"
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
 
-                  {/* Phone & Inquiry Type */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="phone" className="font-semibold text-gray-700">
-                        Phone
-                      </Label>
-                      <Input
-                        id="phone"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
-                        className="mt-2"
-                        placeholder="+91 9876543210"
-                      />
-                    </div>
-                    <div>
-                      <Label className="font-semibold text-gray-700">Inquiry Type *</Label>
-                      <Select
-                        value={formData.inquiryType}
-                        onValueChange={(value) => handleInputChange("inquiryType", value)}
-                      >
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {inquiryTypes.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  {/* Subject */}
-                  <div>
-                    <Label htmlFor="subject" className="font-semibold text-gray-700">
-                      Subject *
-                    </Label>
-                    <Input
-                      id="subject"
-                      value={formData.subject}
-                      onChange={(e) => handleInputChange("subject", e.target.value)}
-                      required
-                      className="mt-2"
-                      placeholder="Course inquiry"
-                    />
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <Label htmlFor="message" className="font-semibold text-gray-700">
-                      Message *
-                    </Label>
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) => handleInputChange("message", e.target.value)}
-                      rows={5}
-                      required
-                      className="mt-2"
-                      placeholder="Tell us how we can help..."
-                    />
-                  </div>
-
-                  {/* Submit */}
-                  <Button
-                    type="submit"
-                    className="w-full py-6 text-lg font-semibold rounded-xl"
-                    style={{
-                      backgroundColor: primaryColor,
-                      color: white,
-                    }}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="phone" className="font-semibold text-gray-800">Phone</Label>
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    className="mt-2 h-12 bg-white/80 border-gray-300"
+                    placeholder="+91 9876543210"
+                  />
+                </div>
+                <div>
+                  <Label className="font-semibold text-gray-800">Inquiry Type *</Label>
+                  <Select
+                    value={formData.inquiryType}
+                    onValueChange={(value) => handleInputChange("inquiryType", value)}
                   >
-                    Send Message <Send className="ml-2 w-5 h-5" />
-                  </Button>
-                </form>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+                    <SelectTrigger className="mt-2 h-12 bg-white/80 border-gray-300">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {inquiryTypes.map((type) => (
+                        <SelectItem key={type} value={type}>{type}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
 
-      {/* How to Reach Us */}
-      <section className="py-16 px-4 bg-gray-50">
+              <div>
+                <Label htmlFor="subject" className="font-semibold text-gray-800">Subject *</Label>
+                <Input
+                  id="subject"
+                  value={formData.subject}
+                  onChange={(e) => handleInputChange("subject", e.target.value)}
+                  required
+                  className="mt-2 h-12 bg-white/80 border-gray-300"
+                  placeholder="Course inquiry"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="message" className="font-semibold text-gray-800">Message *</Label>
+                <Textarea
+                  id="message"
+                  value={formData.message}
+                  onChange={(e) => handleInputChange("message", e.target.value)}
+                  rows={5}
+                  required
+                  className="mt-2 bg-white/80 border-gray-300"
+                  placeholder="Tell us how we can help..."
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full py-7 text-lg font-bold rounded-2xl bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+              >
+                Send Message <Send className="ml-3 w-6 h-6" />
+              </Button>
+            </form>
+          )}
+        </div>
+      </div>
+    </ThreeDCard>
+
+  </div>
+</section>
+
+
+      {/* How to Reach Us - Gradient Cards */}
+      <section className="py-16 px-4 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12" style={{ color: primaryColor }}>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-16" style={{ color: primaryColor }}>
             How to Reach Us
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {[
               {
                 icon: MapPin,
                 title: "Visit Us",
                 details: [
-                  "11-13-75 Road No 2, Alkapuri, Kothapet, Hyderabad-500035",
-                  "Above Pragathi Model School",
+                  "Plot No 401, Green Valley, Behind 36inn, SBI Street, Yendada-530045",
                 ],
               },
               {
                 icon: Phone,
                 title: "Call Us",
-                details: ["Office: +91-9864646481", "WhatsApp: +91-9864646481"],
+                details: ["Office: +91-7981240311", "WhatsApp: +91-7981240311"],
               },
               {
                 icon: Mail,
@@ -450,33 +461,35 @@ export default function ContactPage() {
                 details: ["Mon-Sun: 10 AM to 8 PM"],
               },
             ].map(({ icon: Icon, title, details }, idx) => (
-              <Card key={idx} className="text-center border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <div
-                    className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: primaryColor }}
-                  >
-                    <Icon className="w-8 h-8 text-white" />
+              <ThreeDCard key={idx} className="rounded-2xl overflow-hidden shadow-xl">
+                <div className="bg-gradient-to-br from-[#5C1F1C] via-[#8B4513] to-[#A0522D] p-1 rounded-2xl h-full">
+                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-6 h-full text-center">
+                    <div
+                      className="w-16 h-16 mx-auto mb-5 rounded-full flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: primaryColor }}
+                    >
+                      <Icon className="w-9 h-9 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3" style={{ color: primaryColor }}>
+                      {title}
+                    </h3>
+                    {details.map((d, i) => (
+                      <p key={i} className="text-gray-700 text-sm leading-relaxed">
+                        {d}
+                      </p>
+                    ))}
                   </div>
-                  <h3 className="text-xl font-bold mb-2" style={{ color: primaryColor }}>
-                    {title}
-                  </h3>
-                  {details.map((d, i) => (
-                    <p key={i} className="text-gray-600 text-sm">
-                      {d}
-                    </p>
-                  ))}
-                </CardContent>
-              </Card>
+                </div>
+              </ThreeDCard>
             ))}
           </div>
 
-          <div className="w-full h-96 rounded-xl overflow-hidden shadow-lg">
+          <div className="rounded-3xl overflow-hidden shadow-2xl border border-gray-200">
             <iframe
               title="Chesspure Academy Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.8902674607427!2d78.50310917499912!3d17.322055904365462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9992786f1711%3A0xc2a03126f2eff5c4!2s11-13-75%20Road%20No%202%2C%20Alkapuri%2C%20Kothapet%2C%20Hyderabad%2C%20Telangana%20500035!5e0!3m2!1sen!2sin!4v1694871600000!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3799.3160668424007!2d83.35651567463543!3d17.77683669147027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a395becebe46b37%3A0xebf2ea02cafa2720!2sChesspure%20Chess%20Academy!5e0!3m2!1sen!2sin!4v1763215846078!5m2!1sen!2sin"
               width="100%"
-              height="100%"
+              height="500"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
@@ -487,8 +500,6 @@ export default function ContactPage() {
       </section>
 
       <FAQSection />
-
-  
     </div>
   );
 }

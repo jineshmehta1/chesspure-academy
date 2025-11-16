@@ -25,7 +25,7 @@ export function Footer() {
   });
 
   const socialLinks = [
-    { icon: Facebook, href: "https://www.facebook.com/telanganachessacademy", label: "Facebook" },
+    { icon: Facebook, href: "https://www.facebook.com/chessacademy", label: "Facebook" },
     { icon: Twitter, href: "https://twitter.com/chesspure", label: "Twitter" },
     { icon: Instagram, href: "https://instagram.com/chesspureacademy", label: "Instagram" },
     { icon: Youtube, href: "https://youtube.com/@chesspureacademy", label: "YouTube" },
@@ -64,7 +64,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm mb-6" style={{ color: textLight }}>
-              Dedicated to world-class chess education and building champions from Hyderabad to the world.
+              Dedicated to world-class chess education and building champions from Visakhapatnam to the world.
             </p>
             <div className="flex space-x-3">
               {socialLinks.map((social, index) => {
@@ -106,6 +106,32 @@ export function Footer() {
             </ul>
           </div>
 
+                   <div>
+            <h4 className="text-base sm:text-lg font-semibold text-[#C9A227] mb-4">Programs</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/courses" className="text-white/80 hover:text-[#C9A227] transition-colors">
+                  Beginner Course
+                </Link>
+              </li>
+              <li>
+                <Link href="/courses" className="text-white/80 hover:text-[#C9A227] transition-colors">
+                  Intermediate
+                </Link>
+              </li>
+              <li>
+                <Link href="/courses" className="text-white/80 hover:text-[#C9A227] transition-colors">
+                  Advanced Coaching
+                </Link>
+              </li>
+              <li>
+                <Link href="/courses" className="text-white/80 hover:text-[#C9A227] transition-colors">
+                  Tournament Prep
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div>
             <h4 className="font-semibold mb-6" style={{ color: accentColor }}>
@@ -115,7 +141,7 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 mt-0.5" style={{ color: accentColor }} />
                 <div>
-                  <p className="text-sm" style={{ color: textLight }}>+91 98646 46481</p>
+                  <p className="text-sm" style={{ color: textLight }}>+91 7981240311</p>
                   <p className="text-xs" style={{ color: textMuted }}>Mon - Sun, 10:00 AM - 8:00 PM</p>
                 </div>
               </div>
@@ -129,41 +155,16 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 mt-0.5" style={{ color: accentColor }} />
                 <div>
-                  <p className="text-sm" style={{ color: textLight }}>Hyderabad, Telangana</p>
+                  <p className="text-sm" style={{ color: textLight }}>Visakhapatnam, Andhra Pradesh</p>
                   <p className="text-xs" style={{ color: textMuted }}>India</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Academy Network */}
-          <div>
-            <h4 className="font-semibold mb-6" style={{ color: accentColor }}>
-              Academy Network
-            </h4>
-            <div className="space-y-3 text-xs">
-              {[
-                { name: "Telangana Chess Academy", url: "https://telanganachessacademy.com" },
-                { name: "Telangana Chess School", url: "https://telanganachessschool.com" },
-                { name: "ChessPure Academy", url: "https://chesspureacademy.com" },
-                { name: "ChessPure Institute", url: "https://chesspureinstitute.com" },
-                { name: "Hyderabad Chess Institute", url: "https://hyderabadchessinstitute.com" },
-              ].map((site, i) => (
-                <div key={i}>
-                  <p className="font-medium" style={{ color: textLight }}>{site.name}</p>
-                  <a
-                    href={site.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline transition-colors"
-                    style={{ color: textMuted }}
-                  >
-                    {site.url.replace("https://", "")}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
+
+
+
         </div>
 
         {/* Bottom Bar */}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,8 +22,46 @@ import remarkGfm from "remark-gfm";
 // Brand Colors
 const primaryColor = "#5C1F1C";
 const accentColor = "#FFC727";
-const white = "#FFFFFF";
-const fontFamily = "'Poppins', 'Montserrat', 'Nunito', sans-serif";
+
+function ThreeDCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
+    setRotate({ x: rotateX, y: rotateY });
+  };
+
+  const handleMouseLeave = () => setRotate({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className={`transform-gpu transition-all duration-300 ease-out ${className}`}
+      style={{
+        transform: `perspective(1200px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.02 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function BlogsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,12 +103,12 @@ Rook + Knight in the corner.
 Practice these daily. You'll spot them in your own games!
       `,
       author: "GM Vishal Kumar",
-      authorImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop",
+      authorImage: "/demo/author-1.jpg",
       date: "2025-11-08",
       readTime: "7 min",
       category: "checkmate",
       tags: ["Checkmate", "Tactics", "Patterns"],
-      image: "https://images.unsplash.com/photo-1587280501635-09b2b9897e8a?w=800&h=500&fit=crop",
+      image: "/blog-1.jpeg",
       views: 4800,
       likes: 390,
     },
@@ -110,12 +149,12 @@ Every win is earned through skill, not luck.
 Enroll your child today. The future starts with one move.
       `,
       author: "Dr. Neha Gupta",
-      authorImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop",
+      authorImage: "/demo/author-2.jpg",
       date: "2025-11-05",
       readTime: "9 min",
       category: "benefits",
       tags: ["Kids", "Science", "Brain"],
-      image: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&h=500&fit=crop",
+      image: "/blog-2.jpg",
       views: 6200,
       likes: 510,
     },
@@ -154,12 +193,12 @@ Deep strategy with d3, c3, and kingside attack.
 Master the Ruy Lopez. Dominate the center.
       `,
       author: "IM Aryan Singh",
-      authorImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop",
+      authorImage: "/demo/author-3.jpg",
       date: "2025-11-01",
       readTime: "10 min",
       category: "openings",
       tags: ["Ruy Lopez", "Openings", "Strategy"],
-      image: "https://images.unsplash.com/photo-1511193311914-991f00ad8b66?w=800&h=500&fit=crop",
+      image: "/blog-3.webp",
       views: 3900,
       likes: 280,
     },
@@ -197,12 +236,12 @@ Master the Ruy Lopez. Dominate the center.
 Consistency beats talent. Start today.
       `,
       author: "Coach Rohan Mehta",
-      authorImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop",
+      authorImage: "/demo/author-4.jpg",
       date: "2025-10-28",
       readTime: "8 min",
       category: "training",
       tags: ["Study", "Improvement", "Routine"],
-      image: "https://images.unsplash.com/photo-1587280501635-09b2b9897e8a?w=800&h=500&fit=crop",
+      image: "/blog-4.png",
       views: 5500,
       likes: 420,
     },
@@ -240,12 +279,12 @@ After opening, ask: *"What is my plan?"*
 Fix these 7. Jump 300 ELO in 30 days.
       `,
       author: "FM Kavya Reddy",
-      authorImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop",
+      authorImage: "/demo/author-5.jpg",
       date: "2025-10-20",
       readTime: "6 min",
       category: "beginner",
       tags: ["Mistakes", "Beginner", "Tips"],
-      image: "https://images.unsplash.com/photo-1529699211952-734e80c4d5d0?w=800&h=500&fit=crop",
+      image: "/blog-5.jpg",
       views: 7100,
       likes: 580,
     },
@@ -270,45 +309,51 @@ Fix these 7. Jump 300 ELO in 30 days.
   });
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily }}>
+    <div
+      className="min-h-screen"
+      style={{
+        background: `white`,
+        fontFamily: "'Poppins', sans-serif",
+      }}
+    >
       {/* Hero Section */}
       <section
-  className="relative py-40 text-white overflow-hidden"
-  style={{
-    backgroundImage: 'url("/blogbg.png")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <Badge className="mb-4 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
+        className="relative py-40 text-white overflow-hidden"
+        style={{
+          backgroundImage: 'url("/blogbg.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/80 " />
+        <div className="max-w-7xl mx-auto text-center relative z-10 px-4">
+          <Badge className="mb-6 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
             Chess Blog
           </Badge>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
             Learn. Improve. Win.
           </h1>
-          <p className="text-xl md:text-2xl max-w-4xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
             Master strategies, science, and secrets from India’s top chess minds.
           </p>
         </div>
       </section>
 
       {/* Search & Filter */}
-      <section className="py-8 border-b" style={{ backgroundColor: primaryColor }}>
-        <div className="container mx-auto px-4">
+      <section className="py-8 px-4">
+        <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C1F1C]/70" />
               <Input
                 placeholder="Search blogs..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-12 bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white/50"
+                className="pl-10 h-12 bg-white/80 border-[#5C1F1C]/20 text-[#5C1F1C] placeholder-[#5C1F1C]/50 focus:border-[#5C1F1C]/40 backdrop-blur-md"
               />
             </div>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full lg:w-56 h-12 bg-white/10 border-white/20 text-white">
+              <SelectTrigger className="w-full lg:w-64 h-12 bg-white/80 border-[#5C1F1C]/20 text-[#5C1F1C] backdrop-blur-md">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -323,10 +368,10 @@ Fix these 7. Jump 300 ELO in 30 days.
         </div>
       </section>
 
-      {/* Blog Grid */}
+      {/* Blog Grid - 3D GLASS CARDS */}
       <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredPosts.map((post, i) => (
               <motion.div
                 key={post.id}
@@ -334,74 +379,103 @@ Fix these 7. Jump 300 ELO in 30 days.
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
               >
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full flex flex-col border-0">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <CardContent className="p-6 flex-1 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge style={{ backgroundColor: accentColor, color: primaryColor }}>
-                        {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
-                      </Badge>
-                      <span className="text-sm text-gray-500 flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {post.readTime}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 line-clamp-2" style={{ color: primaryColor }}>
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 flex-1 line-clamp-3">{post.excerpt}</p>
-
-                    <div className="flex items-center justify-between mt-auto text-sm">
-                      <div className="flex items-center gap-3 text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <Eye className="w-4 h-4" /> {post.views.toLocaleString()}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Heart className="w-4 h-4" /> {post.likes}
-                        </span>
+                <ThreeDCard className="h-full rounded-3xl overflow-hidden shadow-2xl">
+                  <div
+                    className="bg-[#5C1F1C] p-1.5 rounded-3xl h-full"
+                    style={{
+                      background: `linear-gradient(135deg, #5C1F1C 0%, #8B4513 100%)`,
+                    }}
+                  >
+                    <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden">
+                      <div className="relative h-56">
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute top-4 right-4">
+                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs">
+                            {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
+                          </Badge>
+                        </div>
                       </div>
-                      <Button
-                        onClick={() => setSelectedPost(post)}
-                        size="sm"
-                        style={{ backgroundColor: primaryColor, color: white }}
-                      >
-                        Read More
-                      </Button>
+
+                      <div className="p-6 text-gray-800">
+                        <h3 className="text-2xl font-extrabold mb-3 text-[#5C1F1C] drop-shadow">
+                          {post.title}
+                        </h3>
+                        <p className="text-gray-600 mb-5 leading-relaxed text-sm line-clamp-3">
+                          {post.excerpt}
+                        </p>
+
+                        <div className="flex items-center justify-between text-sm mb-4">
+                          <div className="flex items-center gap-4 text-gray-700">
+                            <span className="flex items-center gap-1">
+                              <Eye className="w-4 h-4" /> {post.views.toLocaleString()}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Heart className="w-4 h-4" /> {post.likes}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-4 h-4" /> {post.readTime}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={post.authorImage}
+                            alt={post.author}
+                            className="w-10 h-10 rounded-full ring-2 ring-[#5C1F1C]/20"
+                          />
+                          <div>
+                            <p className="font-semibold text-[#5C1F1C] text-sm">{post.author}</p>
+                            <p className="text-xs text-gray-500">
+                              {format(new Date(post.date), "MMM dd, yyyy")}
+                            </p>
+                          </div>
+                        </div>
+
+                        <Button
+                          onClick={() => setSelectedPost(post)}
+                          className="w-full mt-6 bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+                        >
+                          Read More
+                        </Button>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </ThreeDCard>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Modal */}
+      {/* Modal - Glassmorphic */}
       <AnimatePresence>
         {selectedPost && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
             onClick={() => setSelectedPost(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-[#5C1F1C]/20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 bg-white border-b p-4 flex justify-between items-center z-10">
-                <h2 className="text-2xl font-bold" style={{ color: primaryColor }}>
+              <div className="sticky top-0 bg-white/90 backdrop-blur-md border-b border-[#5C1F1C]/10 p-4 flex justify-between items-center z-10">
+                <h2 className="text-2xl md:text-3xl font-bold" style={{ color: primaryColor }}>
                   {selectedPost.title}
                 </h2>
                 <Button size="icon" variant="ghost" onClick={() => setSelectedPost(null)}>
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6 text-gray-600" />
                 </Button>
               </div>
 
@@ -409,24 +483,24 @@ Fix these 7. Jump 300 ELO in 30 days.
                 <img
                   src={selectedPost.image}
                   alt={selectedPost.title}
-                  className="w-full h-64 object-cover rounded-lg mb-6"
+                  className="w-full h-64 object-cover rounded-xl mb-6 shadow-lg"
                 />
 
-                <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 mb-6 text-sm text-gray-700">
+                  <div className="flex items-center gap-3">
                     <img
                       src={selectedPost.authorImage}
                       alt={selectedPost.author}
-                      className="w-10 h-10 rounded-full"
+                      className="w-12 h-12 rounded-full ring-2 ring-[#5C1F1C]/20"
                     />
                     <div>
-                      <p className="font-medium">{selectedPost.author}</p>
-                      <p className="text-xs">
-                        {format(new Date(selectedPost.date), "MMM dd, yyyy")}
+                      <p className="font-semibold text-gray-900">{selectedPost.author}</p>
+                      <p className="text-xs text-gray-500">
+                        {format(new Date(selectedPost.date), "MMMM dd, yyyy")}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 ml-auto">
+                  <div className="flex items-center gap-4 ml-auto text-gray-600">
                     <span className="flex items-center gap-1">
                       <Eye className="w-4 h-4" /> {selectedPost.views.toLocaleString()}
                     </span>
@@ -436,7 +510,7 @@ Fix these 7. Jump 300 ELO in 30 days.
                   </div>
                 </div>
 
-                <article className="prose prose-lg max-w-none">
+                <article className="prose prose-lg max-w-none text-gray-800">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {selectedPost.content}
                   </ReactMarkdown>
@@ -444,7 +518,7 @@ Fix these 7. Jump 300 ELO in 30 days.
 
                 <div className="flex flex-wrap gap-2 mt-8">
                   {selectedPost.tags.map((tag: string) => (
-                    <Badge key={tag} variant="secondary">
+                    <Badge key={tag} className="bg-[#5C1F1C]/10 text-[#5C1F1C] border border-[#5C1F1C]/20">
                       {tag}
                     </Badge>
                   ))}
@@ -454,8 +528,6 @@ Fix these 7. Jump 300 ELO in 30 days.
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </div>
   );
 }

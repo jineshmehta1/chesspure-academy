@@ -121,7 +121,7 @@ export function HeroSection() {
               Chesspure academy empowers you with world-class training from FIDE-rated coaches. Build unshakeable skills, dominate the board, and rise to the top of the chess world.
             </p>
             <div className="flex justify-center lg:justify-start mb-6">
-              <Link href="https://coaching.telanganachessacademy.com/login" target="_blank">
+              <Link href="" target="_blank">
                 <Button
                   size="lg"
                   style={{
@@ -158,14 +158,6 @@ export function HeroSection() {
                 value="600+"
                 textColor={primaryColor}
                 iconBg={primaryColor}
-              />
-              <StatCard
-                bg={primaryColor}
-                icon={<Award size={24} />}
-                label="Champions"
-                value="60+"
-                textColor={white}
-                iconBg={accentColor}
               />
             </div>
           </div>

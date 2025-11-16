@@ -11,7 +11,7 @@ const termsSection = [
     icon: FileText,
     content: [
       "Chesspure academy reserves all right to change, deny or reschedule any class, both online and offline.",
-      "Governing law (jurisdiction): This Agreement shall be governed by and construed in accordance with the laws and the company is based in Telangana (Hyderabad).",
+      "Governing law (jurisdiction): This Agreement shall be governed by and construed in accordance with the laws and the company is based in Andhra Pradesh (Visakhapatnam).",
       "Termination: Classes may be terminated mutually once service agreement has ended.",
       "Intellectual Property: Chesspure academy defends its coaches and employees from intellectual property infringement liabilities.",
     ],

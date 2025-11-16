@@ -50,11 +50,6 @@ export function AboutSection() {
                 <h3 className="font-semibold text-foreground mb-2">Chesspure academy</h3>
                 <p className="text-muted-foreground">www.Chesspureacademy.com</p>
               </div>
-
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">HYDERABAD CHESS INSTITUTE</h3>
-                <p className="text-muted-foreground">www.hyderabadchessinstitute.com</p>
-              </div>
             </div>
 
             <div className="bg-card p-6 rounded-lg border border-border">

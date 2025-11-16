@@ -142,15 +142,6 @@ export function CTASection() {
               </Button>
 
 
-
-              {/* Live India Time */}
-              <p className="mt-6 text-xs text-white/60 text-center lg:text-left">
-                Available now in India • {new Date().toLocaleString("en-IN", {
-                  timeZone: "Asia/Kolkata",
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                })}
-              </p>
             </div>
           </div>
         </div>

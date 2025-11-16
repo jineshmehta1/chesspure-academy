@@ -20,14 +20,16 @@ const galleryCategories = [
 
 // Dummy Images (No real files needed)
 const dummyImages = [
-  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1517248135467-4c7edcad34ce?w=600&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&h=600&fit=crop",
+  "/gallery1.avif",
+  "/gallery3.avif",
+  "/gallery6.avif",
+  "/gallery7.avif",
+  
+  "/gallery8.avif",
+  "/gallery2.webp",
+  "/gallery4.avif",
+  "/gallery5.webp",
+  "/gallery9.webp",
 ];
 
 const galleryImages = [
@@ -212,7 +214,7 @@ export default function GalleryPage() {
             layout
             className={
               viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"
                 : "columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6"
             }
           >
@@ -308,14 +310,7 @@ export default function GalleryPage() {
         </motion.div>
       )}
 
-      {/* Live India Time */}
-      <p className="text-center py-8 text-xs" style={{ color: primaryColor }}>
-        Available in India • {new Date().toLocaleString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          dateStyle: "medium",
-          timeStyle: "short",
-        })}
-      </p>
+ 
     </div>
   );
 }

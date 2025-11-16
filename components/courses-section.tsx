@@ -138,14 +138,7 @@ export function CoursesSection() {
           </div>
         </div>
 
-        {/* India Time */}
-        <p className="text-center mt-16 text-xs text-white/70">
-          Available in India • {new Date().toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-            dateStyle: "medium",
-            timeStyle: "short",
-          })}
-        </p>
+
       </section>
     </>
   );
