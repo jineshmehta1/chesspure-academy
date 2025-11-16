@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { Providers } from "./providers"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -24,10 +25,12 @@ export default function RootLayout({
     <html lang="en">
       
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <Header />
-        <Suspense fallback={null}>{children}</Suspense>
-        <Footer />
-        <Analytics />
+        <Providers>
+          <Header />
+          <Suspense fallback={null}>{children}</Suspense>
+          <Footer />
+          <Analytics />
+        </Providers>
       </body>
     </html>
   )
