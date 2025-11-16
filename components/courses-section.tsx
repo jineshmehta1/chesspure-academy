@@ -53,17 +53,12 @@ export function CoursesSection() {
       `}</style>
 
       <section
-        className="relative overflow-hidden pt-15"
+        className="relative overflow-hidden "
         style={{ fontFamily }}
       >
         {/* Orange Wave with Background Image */}
         <div
           className="relative h-56 sm:h-64 md:h-80 lg:h-96"
-          style={{
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
         >
           {/* Orange Overlay */}
           <div

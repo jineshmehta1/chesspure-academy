@@ -34,7 +34,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen pt-30 flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen pt-30 flex items-center justify-center overflow-hidden py-15"
       style={{
         background: white,
         fontFamily,
