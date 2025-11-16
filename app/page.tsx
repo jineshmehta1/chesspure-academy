@@ -1,3 +1,4 @@
+"use client";
 import { HeroSection } from "@/components/hero-section"
 import { EventsPreview } from "@/components/events-preview"
 import { CTASection } from "@/components/demo-booking-cta"
