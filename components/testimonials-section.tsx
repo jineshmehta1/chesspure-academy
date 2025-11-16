@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, Quote, Users, Trophy, Target } from "lucide-react";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 
 // Brand Colors
 const primaryColor = "#5C1F1C";
@@ -87,6 +88,14 @@ export function TestimonialsSection() {
     setCurrentIndex(index);
   };
 
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 3) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 3 + testimonials.length) % testimonials.length);
+  };
+
   const visibleTestimonials = [
     ...testimonials.slice(currentIndex),
     ...testimonials.slice(0, currentIndex),
@@ -114,66 +123,80 @@ export function TestimonialsSection() {
       `}</style>
 
       <section
-        className="py-20 bg-white overflow-hidden"
+        className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden"
         style={{ fontFamily }}
       >
-        <div className="container mx-auto px-4">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Gradient Heading */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-12 lg:mb-16 animate-fadeInUp">
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 bg-[#5C1F1C] bg-clip-text text-transparent"
-              
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-[#5C1F1C] to-[#8B4513] bg-clip-text text-transparent"
             >
               Student Success Stories
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Real students, real progress. See how ChessPure Academy transforms beginners into champions.
             </p>
           </div>
 
-          {/* Auto-Rotating Carousel */}
-          <div className="relative max-w-6xl mx-auto mb-16" ref={testimonialsRef}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Auto-Rotating Carousel - Responsive */}
+          <div className="relative max-w-6xl mx-auto mb-12 sm:mb-16" ref={testimonialsRef}>
+            {/* Carousel Container */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {visibleTestimonials.map((testimonial, idx) => (
                 <Card
                   key={`${testimonial.id}-${currentIndex}`}
                   className={`
                     bg-gradient-to-b from-[#5C1F1C] to-[#4A1815] 
                     text-white border border-amber-300/30 
-                    p-6 transition-all duration-700 
+                    p-4 sm:p-6 transition-all duration-700 
                     hover:scale-105 hover:shadow-2xl 
                     hover:shadow-amber-500/30 
                     animate-slideIn
                   `}
-                  style={{ animationDelay: `${idx * 0.2}s` }}
+                  style={{ animationDelay: `${idx * 0.15}s` }}
                 >
                   <CardContent className="p-0">
                     {/* Stars */}
-                    <div className="flex gap-1 mb-3">
+                    <div className="flex gap-0.5 sm:gap-1 mb-2 sm:mb-3">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className="w-5 h-5 fill-amber-400 text-amber-400"
+                          className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400"
                         />
                       ))}
                     </div>
 
                     {/* Quote */}
-                    <div className="relative mb-5">
-                      <Quote className="absolute -top-3 -left-2 w-8 h-8 text-amber-400/30" />
-                      <p className="text-amber-50 italic pl-6 leading-relaxed text-sm">
+                    <div className="relative mb-3 sm:mb-5">
+                      <Quote className="absolute -top-2 -left-1 sm:-top-3 sm:-left-2 w-6 h-6 sm:w-8 sm:h-8 text-amber-400/30" />
+                      <p className="text-amber-50 italic pl-5 sm:pl-6 leading-relaxed text-xs sm:text-sm line-clamp-4 sm:line-clamp-none">
                         "{testimonial.content}"
                       </p>
                     </div>
 
                     {/* Avatar + Name */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-pulseGlow">
-                        {testimonial.name.charAt(0)}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden shadow-lg animate-pulseGlow">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                        {/* Fallback Initial */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-white font-bold text-sm sm:text-lg">
+                          {testimonial.name.charAt(0)}
+                        </div>
                       </div>
                       <div>
-                        <h4 className="font-bold text-white">{testimonial.name}</h4>
-                        <p className="text-amber-200 text-xs">{testimonial.role}</p>
+                        <h4 className="font-bold text-white text-sm sm:text-base line-clamp-1">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-amber-200 text-xs line-clamp-1">
+                          {testimonial.role}
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -181,23 +204,38 @@ export function TestimonialsSection() {
               ))}
             </div>
 
+            {/* Navigation Arrows - Mobile & Desktop */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 bg-white/90 hover:bg-white text-[#5C1F1C] p-1.5 sm:p-2 rounded-full shadow-lg transition-all hover:scale-110 lg:hidden sm:block"
+              aria-label="Previous testimonials"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 bg-white/90 hover:bg-white text-[#5C1F1C] p-1.5 sm:p-2 rounded-full shadow-lg transition-all hover:scale-110 lg:hidden sm:block"
+              aria-label="Next testimonials"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
             {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
               {[...Array(Math.ceil(testimonials.length / 3))].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => goToSlide(i * 3)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  className={`transition-all duration-300 rounded-full ${
                     Math.floor(currentIndex / 3) === i
-                      ? "bg-amber-500 w-8"
-                      : "bg-gray-400"
+                      ? "bg-amber-500 w-6 sm:w-8 h-2"
+                      : "bg-gray-400 w-2 h-2"
                   }`}
+                  aria-label={`Go to slide ${i + 1}`}
                 />
               ))}
             </div>
           </div>
-
-
         </div>
       </section>
     </>

@@ -57,6 +57,7 @@ function ThreeDCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {children}
     </motion.div>
@@ -310,55 +311,55 @@ Fix these 7. Jump 300 ELO in 30 days.
 
   return (
     <div
-      className="min-h-screen"
-      style={{
-        background: `white`,
-        fontFamily: "'Poppins', sans-serif",
-      }}
+      className="min-h-screen bg-white"
+      style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      {/* Hero Section */}
+      {/* Hero Section - Responsive */}
       <section
-        className="relative py-40 text-white overflow-hidden"
+        className="relative py-30 sm:py-28 md:py-36 lg:py-40 text-white overflow-hidden"
         style={{
           backgroundImage: 'url("/blogbg.png")',
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/80 " />
-        <div className="max-w-7xl mx-auto text-center relative z-10 px-4">
-          <Badge className="mb-6 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
+        <div className="absolute inset-0 bg-black/80" />
+        <div className="max-w-7xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
+          <Badge
+            className="mb-3 text-xs sm:mb-4 sm:text-sm md:mb-6 md:text-lg"
+            style={{ backgroundColor: accentColor, color: primaryColor }}
+          >
             Chess Blog
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 md:mb-6 leading-tight">
             Learn. Improve. Win.
           </h1>
-          <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl max-w-4xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10 opacity-90">
             Master strategies, science, and secrets from India’s top chess minds.
           </p>
         </div>
       </section>
 
-      {/* Search & Filter */}
-      <section className="py-8 px-4">
+      {/* Search & Filter - Responsive */}
+      <section className="py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C1F1C]/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[#5C1F1C]/70" />
               <Input
                 placeholder="Search blogs..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-12 bg-white/80 border-[#5C1F1C]/20 text-[#5C1F1C] placeholder-[#5C1F1C]/50 focus:border-[#5C1F1C]/40 backdrop-blur-md"
+                className="pl-9 sm:pl-10 h-11 sm:h-12 bg-white/90 border-[#5C1F1C]/20 text-[#5C1F1C] placeholder-[#5C1F1C]/50 focus:border-[#5C1F1C]/40 backdrop-blur-md text-sm sm:text-base"
               />
             </div>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full lg:w-64 h-12 bg-white/80 border-[#5C1F1C]/20 text-[#5C1F1C] backdrop-blur-md">
+              <SelectTrigger className="w-full sm:w-48 lg:w-64 h-11 sm:h-12 bg-white/90 border-[#5C1F1C]/20 text-[#5C1F1C] backdrop-blur-md text-sm sm:text-base">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
+                  <SelectItem key={cat.id} value={cat.id} className="text-sm">
                     {cat.name} ({cat.count})
                   </SelectItem>
                 ))}
@@ -368,78 +369,80 @@ Fix these 7. Jump 300 ELO in 30 days.
         </div>
       </section>
 
-      {/* Blog Grid - 3D GLASS CARDS */}
-      <section className="py-16 px-4">
+      {/* Blog Grid - Responsive 3D Cards */}
+      <section className="py-10 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
             {filteredPosts.map((post, i) => (
               <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
+                className="h-full"
               >
-                <ThreeDCard className="h-full rounded-3xl overflow-hidden shadow-2xl">
+                <ThreeDCard className="h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                   <div
-                    className="bg-[#5C1F1C] p-1.5 rounded-3xl h-full"
-                    style={{
-                      background: `linear-gradient(135deg, #5C1F1C 0%, #8B4513 100%)`,
-                    }}
+                    className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1 sm:p-1.5 rounded-2xl sm:rounded-3xl h-full"
                   >
-                    <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden">
-                      <div className="relative h-56">
+                    <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl h-full overflow-hidden flex flex-col">
+                      {/* Image */}
+                      <div className="relative h-48 sm:h-56 lg:h-64">
                         <Image
                           src={post.image}
                           alt={post.title}
                           fill
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
-                        <div className="absolute top-4 right-4">
-                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs">
+                        <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs sm:text-sm">
                             {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
                           </Badge>
                         </div>
                       </div>
 
-                      <div className="p-6 text-gray-800">
-                        <h3 className="text-2xl font-extrabold mb-3 text-[#5C1F1C] drop-shadow">
+                      {/* Content */}
+                      <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-extrabold mb-2 sm:mb-3 text-[#5C1F1C] line-clamp-2">
                           {post.title}
                         </h3>
-                        <p className="text-gray-600 mb-5 leading-relaxed text-sm line-clamp-3">
+                        <p className="text-gray-600 mb-3 sm:mb-4 leading-relaxed text-sm line-clamp-2 sm:line-clamp-3">
                           {post.excerpt}
                         </p>
 
-                        <div className="flex items-center justify-between text-sm mb-4">
-                          <div className="flex items-center gap-4 text-gray-700">
-                            <span className="flex items-center gap-1">
-                              <Eye className="w-4 h-4" /> {post.views.toLocaleString()}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Heart className="w-4 h-4" /> {post.likes}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" /> {post.readTime}
-                            </span>
-                          </div>
+                        {/* Stats */}
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 mb-3">
+                          <span className="flex items-center gap-1">
+                            <Eye className="w-3 h-3 sm:w-4 sm:h-4" /> {post.views.toLocaleString()}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Heart className="w-3 h-3 sm:w-4 sm:h-4" /> {post.likes}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3 sm:w-4 sm:h-4" /> {post.readTime}
+                          </span>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        {/* Author */}
+                        <div className="flex items-center gap-2 sm:gap-3 mb-4">
                           <img
                             src={post.authorImage}
                             alt={post.author}
-                            className="w-10 h-10 rounded-full ring-2 ring-[#5C1F1C]/20"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full ring-2 ring-[#5C1F1C]/20 object-cover"
                           />
                           <div>
-                            <p className="font-semibold text-[#5C1F1C] text-sm">{post.author}</p>
+                            <p className="font-semibold text-[#5C1F1C] text-xs sm:text-sm">{post.author}</p>
                             <p className="text-xs text-gray-500">
                               {format(new Date(post.date), "MMM dd, yyyy")}
                             </p>
                           </div>
                         </div>
 
+                        {/* CTA Button */}
                         <Button
                           onClick={() => setSelectedPost(post)}
-                          className="w-full mt-6 bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+                          className="w-full mt-auto bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-sm sm:text-base py-5 sm:py-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
                         >
                           Read More
                         </Button>
@@ -453,45 +456,48 @@ Fix these 7. Jump 300 ELO in 30 days.
         </div>
       </section>
 
-      {/* Modal - Glassmorphic */}
+      {/* Modal - Responsive & Scrollable */}
       <AnimatePresence>
         {selectedPost && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto"
             onClick={() => setSelectedPost(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-[#5C1F1C]/20"
+              className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto border border-[#5C1F1C]/20"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 bg-white/90 backdrop-blur-md border-b border-[#5C1F1C]/10 p-4 flex justify-between items-center z-10">
-                <h2 className="text-2xl md:text-3xl font-bold" style={{ color: primaryColor }}>
+              {/* Sticky Header */}
+              <div className="sticky top-0 bg-white/90 backdrop-blur-md border-b border-[#5C1F1C]/10 p-3 sm:p-4 flex justify-between items-start sm:items-center z-10">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold pr-8" style={{ color: primaryColor }}>
                   {selectedPost.title}
                 </h2>
-                <Button size="icon" variant="ghost" onClick={() => setSelectedPost(null)}>
-                  <X className="w-6 h-6 text-gray-600" />
+                <Button size="icon" variant="ghost" onClick={() => setSelectedPost(null)} className="shrink-0">
+                  <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
                 </Button>
               </div>
 
-              <div className="p-6">
+              {/* Content */}
+              <div className="p-4 sm:p-6">
                 <img
                   src={selectedPost.image}
                   alt={selectedPost.title}
-                  className="w-full h-64 object-cover rounded-xl mb-6 shadow-lg"
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover rounded-lg sm:rounded-xl mb-4 sm:mb-6 shadow-lg"
                 />
 
-                <div className="flex items-center gap-4 mb-6 text-sm text-gray-700">
-                  <div className="flex items-center gap-3">
+                {/* Author & Stats */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-5 sm:mb-6 text-xs sm:text-sm text-gray-700">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <img
                       src={selectedPost.authorImage}
                       alt={selectedPost.author}
-                      className="w-12 h-12 rounded-full ring-2 ring-[#5C1F1C]/20"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full ring-2 ring-[#5C1F1C]/20 object-cover"
                     />
                     <div>
                       <p className="font-semibold text-gray-900">{selectedPost.author}</p>
@@ -500,25 +506,27 @@ Fix these 7. Jump 300 ELO in 30 days.
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 ml-auto text-gray-600">
+                  <div className="flex items-center gap-3 sm:gap-4 sm:ml-auto text-gray-600 text-xs sm:text-sm">
                     <span className="flex items-center gap-1">
-                      <Eye className="w-4 h-4" /> {selectedPost.views.toLocaleString()}
+                      <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {selectedPost.views.toLocaleString()}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Heart className="w-4 h-4" /> {selectedPost.likes}
+                      <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> {selectedPost.likes}
                     </span>
                   </div>
                 </div>
 
-                <article className="prose prose-lg max-w-none text-gray-800">
+                {/* Markdown Content */}
+                <article className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-800 pb-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {selectedPost.content}
                   </ReactMarkdown>
                 </article>
 
-                <div className="flex flex-wrap gap-2 mt-8">
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-4 border-t border-gray-200">
                   {selectedPost.tags.map((tag: string) => (
-                    <Badge key={tag} className="bg-[#5C1F1C]/10 text-[#5C1F1C] border border-[#5C1F1C]/20">
+                    <Badge key={tag} className="bg-[#5C1F1C]/10 text-[#5C1F1C] border border-[#5C1F1C]/20 text-xs sm:text-sm">
                       {tag}
                     </Badge>
                   ))}

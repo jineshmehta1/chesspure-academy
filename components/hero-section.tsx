@@ -34,7 +34,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen pt-16 flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen pt-30 flex items-center justify-center overflow-hidden"
       style={{
         background: white,
         fontFamily,
@@ -109,7 +109,7 @@ export function HeroSection() {
               </span>
             </div>
             <h2
-              className="mt-2 mb-4 text-3xl leading-tight font-bold"
+              className="mt-2 mb-4 text-3xl sm:text-4xl lg:text-5xl leading-tight font-bold" /* Added responsiveness */
               style={{
                 color: primaryColor,
                 fontFamily,
@@ -117,25 +117,24 @@ export function HeroSection() {
             >
               Master the Game, Conquer the Board
             </h2>
-            <p className="mb-6 text-lg" style={{ color: textDark }}>
+            <p className="mb-6 text-base sm:text-lg" style={{ color: textDark }}> {/* Added responsiveness */}
               Chesspure academy empowers you with world-class training from FIDE-rated coaches. Build unshakeable skills, dominate the board, and rise to the top of the chess world.
             </p>
             <div className="flex justify-center lg:justify-start mb-6">
               <Link href="" target="_blank">
                 <Button
                   size="lg"
+                  className="px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg" /* Added responsiveness */
                   style={{
                     background: primaryColor,
                     color: white,
                     fontWeight: 800,
                     fontFamily,
-                    fontSize: "1.1rem",
-                    padding: "0.7rem 2rem",
                     borderRadius: "999px",
                     boxShadow: "0 2px 16px 0 rgba(92,31,28,0.10)",
                   }}
                 >
-                  <Users className="inline align-middle mr-2" /> Join Our Online Coaching
+                  <Users className="inline align-middle mr-2 w-5 h-5 sm:w-6 sm:h-6" /> Join Our Online Coaching {/* Added responsiveness */}
                 </Button>
               </Link>
             </div>
@@ -165,10 +164,8 @@ export function HeroSection() {
           {/* Hero Right: Interactive Chessboard */}
           <div className="flex justify-center lg:justify-end animate-fade-in-up perspective-1000">
             <div
-              className="relative transition-all duration-500 ease-out"
+              className="relative transition-all duration-500 ease-out w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96" /* Added responsiveness */
               style={{
-                width: "26rem",
-                height: "26rem",
                 background: white,
                 borderRadius: "2rem",
                 boxShadow: `0 12px 36px 0 #5C1F1C20`,
@@ -229,7 +226,7 @@ export function HeroSection() {
                   return (
                     <div
                       key={i}
-                      className="aspect-square flex items-center justify-center font-bold text-2xl chess-piece select-none"
+                      className="aspect-square flex items-center justify-center font-bold text-xl sm:text-2xl lg:text-3xl chess-piece select-none" /* Added responsiveness */
                       style={{
                         background: isLight ? boardWhite : boardBrown,
                         color: isLight ? "#000" : "#FFF",

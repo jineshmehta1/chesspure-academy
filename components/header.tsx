@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -29,8 +30,10 @@ export function Header() {
     { name: "Contact", href: "/contact" },
   ];
 
-  const primaryColor = "#ffffff"; // Dark brown from the logo background
-  const accentColor = "#FFD700"; // Gold/yellow from the logo text
+  const primaryColor = "#ffffff"; // White background for menu
+  const accentColor = "#FFD700"; // Gold/yellow from logo text
+  const accentColorClass = "text-gray-800"; // Tailwind friendly class instead of template literal
+  const primaryColorClass = "bg-[#ffffff]"; // Tailwind friendly class
 
   return (
     <header className={`bg-[#ffffff] shadow-md fixed w-full z-40`}>
@@ -40,13 +43,15 @@ export function Header() {
           <Link href="/" className="flex items-center space-x-2 md:space-x-4">
             <div className="w-10 h-10 flex items-center justify-center">
               <Image
-                src="/logo.webp" // Assuming '/logo.webp' is the path to your logo
+                src="/logo.webp"
                 alt="Chesspure Academy Logo"
                 width={55}
                 height={55}
               />
             </div>
-            <span className={`text-base md:text-xl font-semibold tracking-tight text-[${accentColor}] whitespace-nowrap`}>
+            <span
+              className={`${accentColorClass} text-base md:text-xl font-semibold tracking-tight whitespace-nowrap`}
+            >
               Chesspure Academy
             </span>
           </Link>
@@ -54,7 +59,7 @@ export function Header() {
           {/* Mobile Menu Toggle */}
           <div className="lg:hidden ml-auto flex items-center">
             <button
-              className={`p-1 text-[${accentColor}] hover:text-[#5C1F1C]`}
+              className={`${accentColorClass} p-1 hover:text-[#5C1F1C]`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -63,18 +68,19 @@ export function Header() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
+                  d={
+                    isMobileMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16m-7 6h7"
+                  }
                 />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Right Section: Contact Info + Navbar Menu (Desktop) */}
+        {/* Right Section: Desktop Navbar */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 mt-4 lg:mt-0 w-full lg:w-auto">
-          
-
-          {/* Desktop Navbar Menu */}
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10">
             {navItems.map((item) => (
               <div key={item.name} className="relative">
@@ -82,7 +88,7 @@ export function Header() {
                   <div className="relative">
                     <button
                       onClick={() => setIsAboutOpen(!isAboutOpen)}
-                      className={`flex items-center space-x-1 text-[${accentColor}] hover:text-white font-medium py-1 px-1.5 text-md whitespace-nowrap`}
+                      className={`${accentColorClass} hover:text-white font-medium py-1 px-1.5 text-md whitespace-nowrap flex items-center space-x-1`}
                       aria-expanded={isAboutOpen}
                       aria-haspopup="true"
                     >
@@ -90,12 +96,14 @@ export function Header() {
                       <ChevronDown className="w-3 h-3" />
                     </button>
                     {isAboutOpen && (
-                      <div className={`absolute top-full left-0 mt-1 w-40 bg-[${primaryColor}] text-white rounded shadow-lg border border-[${accentColor}] z-10`}>
+                      <div
+                        className={`${primaryColorClass} absolute top-full left-0 mt-1 w-40 rounded shadow-lg border border-yellow-500 z-10`}
+                      >
                         {item.dropdownItems?.map((dropItem) => (
                           <Link
                             key={dropItem.name}
                             href={dropItem.href}
-                            className={`block px-3 py-1.5 text-md hover:bg-[${accentColor}] hover:text-[#5C1F1C] whitespace-nowrap`}
+                            className={`block px-3 py-1.5 text-md hover:bg-yellow-400 hover:text-[#5C1F1C] whitespace-nowrap`}
                             onClick={() => setIsAboutOpen(false)}
                           >
                             {dropItem.name}
@@ -109,14 +117,14 @@ export function Header() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-[${accentColor}] hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
+                    className={`${accentColorClass} hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
                   >
                     {item.name}
                   </a>
                 ) : (
                   <Link
                     href={item.href}
-                    className={`text-[${accentColor}] hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
+                    className={`${accentColorClass} hover:text-[#5C1F1C] font-medium py-1 px-1.5 text-md rounded whitespace-nowrap`}
                   >
                     {item.name}
                   </Link>
@@ -129,14 +137,14 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className={`lg:hidden bg-[${primaryColor}] text-white py-3 px-4 space-y-2`}>
+        <div className={`${primaryColorClass} text-[#5C1F1C] py-3 px-4 space-y-2 lg:hidden`}>
           {navItems.map((item) => (
             <div key={item.name}>
               {item.hasDropdown ? (
                 <div>
                   <button
                     onClick={() => setIsAboutOpen(!isAboutOpen)}
-                    className={`flex items-center justify-between w-full hover:text-[${accentColor}] py-2 text-base`}
+                    className="flex items-center justify-between w-full hover:text-yellow-500 py-2 text-base"
                     aria-expanded={isAboutOpen}
                     aria-haspopup="true"
                   >
@@ -149,7 +157,7 @@ export function Header() {
                         <Link
                           key={dropItem.name}
                           href={dropItem.href}
-                          className={`block text-white hover:bg-[${accentColor}] hover:text-[${primaryColor}] py-2 text-sm px-3`}
+                          className="block hover:bg-yellow-400 hover:text-[#5C1F1C] py-2 text-sm px-3"
                           onClick={() => {
                             setIsAboutOpen(false);
                             setIsMobileMenuOpen(false);
@@ -166,7 +174,7 @@ export function Header() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`hover:text-[${accentColor}] py-2 text-base block`}
+                  className="hover:text-yellow-500 py-2 text-base block"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
@@ -174,7 +182,7 @@ export function Header() {
               ) : (
                 <Link
                   href={item.href}
-                  className={`hover:text-[${accentColor}] py-2 text-base block`}
+                  className="hover:text-yellow-500 py-2 text-base block"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}

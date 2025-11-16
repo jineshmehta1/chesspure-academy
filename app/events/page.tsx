@@ -61,6 +61,7 @@ function ThreeDCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {children}
     </motion.div>
@@ -109,7 +110,7 @@ export default function EventsPage() {
       location: "Online (Lichess Team)",
       participants: "200+",
       prize: "₹25,000",
-      description: "15+10 rapid. Free entry for Chesspure students. Titled prizes.",
+      description: "15+10 rapid. Free entry for weekly students. Titled prizes.",
       image: "/blog-3.webp",
       status: "upcoming",
       registrationFee: "₹400",
@@ -176,7 +177,7 @@ export default function EventsPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Hero Section */}
       <section
-        className="relative py-40 text-white overflow-hidden"
+        className="relative py-30 sm:py-32 md:py-40 text-white overflow-hidden text-center"
         style={{
           backgroundImage: 'url("/galbg.png")',
           backgroundSize: "cover",
@@ -184,142 +185,157 @@ export default function EventsPage() {
         }}
       >
         <div className="absolute inset-0 bg-black/70" />
-        <div className="max-w-6xl mx-auto text-center relative z-10 px-4">
-          <Badge className="mb-6 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Badge
+            className="mb-4 sm:mb-6 text-sm sm:text-lg px-4 py-1"
+            style={{ backgroundColor: accentColor, color: primaryColor }}
+          >
             Events & Tournaments
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 sm:mb-6 leading-tight">
             Chess Events Calendar
           </h1>
-          <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed opacity-90 px-4">
             Compete, learn, and grow with India’s top chess events.
           </p>
         </div>
       </section>
 
       {/* Event Categories */}
-      <section className="py-12 px-4 bg-white/60 backdrop-blur-sm">
+      <section className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-extrabold text-center mb-10" style={{ color: primaryColor }}>
+          <h2
+            className="text-3xl sm:text-4xl font-extrabold text-center mb-8 sm:mb-10"
+            style={{ color: primaryColor }}
+          >
             Explore by Category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
-                className={`h-20 flex flex-col items-center justify-center gap-2 rounded-xl transition-all ${
-                  selectedCategory === category.id
-                    ? "bg-[#5C1F1C] text-white hover:bg-[#8B4513]"
-                    : "border-[#5C1F1C]/30 text-[#5C1F1C] hover:bg-[#5C1F1C]/5"
-                }`}
-                onClick={() => setSelectedCategory(category.id)}
-              >
-                <category.icon className="w-6 h-6" />
-                <span className="text-xs font-semibold">{category.name}</span>
-              </Button>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            {categories.map((category) => {
+              const Icon = category.icon;
+              return (
+                <Button
+                  key={category.id}
+                  variant={selectedCategory === category.id ? "default" : "outline"}
+                  className={`h-16 sm:h-20 flex flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-xl transition-all text-xs sm:text-sm font-medium ${
+                    selectedCategory === category.id
+                      ? "bg-[#5C1F1C] text-white hover:bg-[#8B4513]"
+                      : "border-[#5C1F1C]/30 text-[#5C1F1C] hover:bg-[#5C1F1C]/5"
+                  }`}
+                  onClick={() => setSelectedCategory(category.id)}
+                >
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <span>{category.name}</span>
+                </Button>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 px-4">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <Tabs defaultValue="grid" className="w-full">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-              <TabsList className="bg-white/80 backdrop-blur-sm border border-[#5C1F1C]/20">
-                <TabsTrigger value="grid" className="data-[state=active]:bg-[#5C1F1C] data-[state=active]:text-white">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+              <TabsList className="bg-white/80 backdrop-blur-sm border border-[#5C1F1C]/20 w-full md:w-auto">
+                <TabsTrigger
+                  value="grid"
+                  className="data-[state=active]:bg-[#5C1F1C] data-[state=active]:text-white text-sm sm:text-base"
+                >
                   Grid View
                 </TabsTrigger>
-                <TabsTrigger value="calendar" className="data-[state=active]:bg-[#5C1F1C] data-[state=active]:text-white">
+                <TabsTrigger
+                  value="calendar"
+                  className="data-[state=active]:bg-[#5C1F1C] data-[state=active]:text-white text-sm sm:text-base"
+                >
                   Calendar View
                 </TabsTrigger>
               </TabsList>
-              <div className="flex items-center gap-2 text-gray-700 mt-4 md:mt-0">
-                <Filter className="w-5 h-5" />
+              <div className="flex items-center gap-2 text-gray-700 w-full md:w-auto justify-center md:justify-end">
+                <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="text-sm font-medium">
                   Showing {filteredEvents.length} of {events.length} events
                 </span>
               </div>
             </div>
 
-            {/* Grid View - #5C1F1C GLASS CARDS */}
-            <TabsContent value="grid">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {/* Grid View */}
+            <TabsContent value="grid" className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
                 {filteredEvents.map((event, i) => (
                   <motion.div
                     key={event.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
+                    className="h-full"
                   >
-                    <ThreeDCard className="h-full rounded-3xl overflow-hidden shadow-2xl">
+                    <ThreeDCard className="h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                       <div
-                        className="bg-[#5C1F1C] p-1.5 rounded-3xl h-full"
-                        style={{
-                          background: `linear-gradient(135deg, #5C1F1C 0%, #8B4513 100%)`,
-                        }}
+                        className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1 sm:p-1.5 rounded-3xl h-full"
                       >
-                        <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden">
-                          <div className="relative h-56">
+                        <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden flex flex-col">
+                          {/* Image */}
+                          <div className="relative h-48 sm:h-56 overflow-hidden">
                             <img
                               src={event.image}
                               alt={event.title}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                              className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                             />
-                            <div className="absolute top-4 right-4">
-                              <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs">
+                            <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                              <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs px-2 py-0.5">
                                 {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
                               </Badge>
                             </div>
                           </div>
 
-                          <div className="p-6 text-gray-800">
-                            <h3 className="text-2xl font-extrabold mb-3 text-[#5C1F1C] drop-shadow">
+                          {/* Content */}
+                          <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold mb-2 sm:mb-3 text-[#5C1F1C]">
                               {event.title}
                             </h3>
-                            <p className="text-gray-600 mb-5 leading-relaxed text-sm">
+                            <p className="text-gray-600 mb-3 sm:mb-5 leading-relaxed text-sm line-clamp-2">
                               {event.description}
                             </p>
 
-                            <div className="space-y-3 text-sm mb-6">
-                              <div className="flex items-center gap-3">
-                                <CalendarIcon className="w-5 h-5 text-[#FFC727]" />
-                                <span className="font-medium">{format(new Date(event.date), "MMMM dd, yyyy")}</span>
+                            <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm mb-4 sm:mb-6">
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFC727]" />
+                                <span className="font-medium">{format(new Date(event.date), "MMM dd, yyyy")}</span>
                               </div>
-                              <div className="flex items-center gap-3">
-                                <Clock className="w-5 h-5 text-[#FFC727]" />
+                              <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFC727]" />
                                 <span>{event.time}</span>
                               </div>
-                              <div className="flex items-center gap-3">
-                                <MapPin className="w-5 h-5 text-[#FFC727]" />
-                                <span className="text-xs">{event.location}</span>
+                              <div className="flex items-center gap-2">
+                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFC727]" />
+                                <span className="text-xs line-clamp-1">{event.location}</span>
                               </div>
-                              <div className="flex items-center gap-3">
-                                <Users className="w-5 h-5 text-[#FFC727]" />
+                              <div className="flex items-center gap-2">
+                                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFC727]" />
                                 <span>{event.participants} expected</span>
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4 mb-6">
-                              <div className="text-center bg-gradient-to-br from-[#5C1F1C]/10 to-[#8B4513]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
-                                <Trophy className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
-                                <p className="text-xs font-medium text-gray-600">Prize Pool</p>
-                                <p className="font-bold text-[#5C1F1C] text-lg">{event.prize}</p>
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                              <div className="text-center bg-gradient-to-br from-[#5C1F1C]/10 to-[#8B4513]/10 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-[#5C1F1C]/20">
+                                <Trophy className="w-6 h-6 sm:w-7 sm:h-7 mx-auto mb-1 sm:mb-2 text-[#5C1F1C]" />
+                                <p className="text-xs font-medium text-gray-600">Prize</p>
+                                <p className="font-bold text-[#5C1F1C] text-sm sm:text-lg">{event.prize}</p>
                               </div>
-                              <div className="text-center bg-gradient-to-br from-[#8B4513]/10 to-[#A0522D]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
-                                <CalendarIcon className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
-                                <p className="text-xs font-medium text-gray-600">Entry Fee</p>
-                                <p className="font-bold text-[#5C1F1C] text-lg">{event.registrationFee}</p>
+                              <div className="text-center bg-gradient-to-br from-[#8B4513]/10 to-[#A0522D]/10 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-[#5C1F1C]/20">
+                                <CalendarIcon className="w-6 h-6 sm:w-7 sm:h-7 mx-auto mb-1 sm:mb-2 text-[#5C1F1C]" />
+                                <p className="text-xs font-medium text-gray-600">Fee</p>
+                                <p className="font-bold text-[#5C1F1C] text-sm sm:text-lg">{event.registrationFee}</p>
                               </div>
                             </div>
 
-                            <Link href="/contact" className="block">
+                            <Link href="/contact" className="block mt-auto">
                               <Button
-                                className="w-full bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+                                className="w-full bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-sm sm:text-lg py-5 sm:py-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
                               >
-                                Register Now <ArrowRight className="ml-2 w-5 h-5" />
+                                Register Now <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                               </Button>
                             </Link>
                           </div>
@@ -332,13 +348,14 @@ export default function EventsPage() {
             </TabsContent>
 
             {/* Calendar View */}
-            <TabsContent value="calendar">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <TabsContent value="calendar" className="mt-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                {/* Calendar */}
                 <div className="lg:col-span-1">
-                  <Card className="shadow-2xl rounded-3xl overflow-hidden border-0">
-                    <div className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1.5 rounded-3xl">
-                      <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-6">
-                        <h3 className="text-xl font-extrabold mb-4" style={{ color: primaryColor }}>
+                  <Card className="shadow-xl sm:shadow-2xl rounded-2xl sm:rounded-3xl overflow-hidden border-0">
+                    <div className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1 sm:p-1.5 rounded-3xl">
+                      <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6">
+                        <h3 className="text-lg sm:text-xl font-extrabold mb-3 sm:mb-4" style={{ color: primaryColor }}>
                           Pick a Date
                         </h3>
                         <Calendar
@@ -346,24 +363,25 @@ export default function EventsPage() {
                           selected={selectedDate}
                           onSelect={setSelectedDate}
                           disabled={(date) => date < new Date()}
-                          className="rounded-xl border border-[#5C1F1C]/20"
+                          className="rounded-xl border border-[#5C1F1C]/20 w-full"
                         />
                       </div>
                     </div>
                   </Card>
                 </div>
 
+                {/* Events List */}
                 <div className="lg:col-span-2">
-                  <Card className="shadow-2xl rounded-3xl border-0">
-                    <div className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1.5 rounded-3xl">
-                      <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-6">
-                        <h3 className="text-xl font-extrabold mb-6" style={{ color: primaryColor }}>
+                  <Card className="shadow-xl sm:shadow-2xl rounded-2xl sm:rounded-3xl border-0 h-full">
+                    <div className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1 sm:p-1.5 rounded-3xl h-full">
+                      <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 h-full flex flex-col">
+                        <h3 className="text-lg sm:text-xl font-extrabold mb-4 sm:mb-6" style={{ color: primaryColor }}>
                           Events on{" "}
                           {selectedDate
                             ? format(selectedDate, "MMMM dd, yyyy")
                             : "Selected Date"}
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4 flex-1 overflow-y-auto">
                           {filteredEvents
                             .filter((e) =>
                               selectedDate
@@ -373,27 +391,27 @@ export default function EventsPage() {
                             .map((event) => (
                               <div
                                 key={event.id}
-                                className="flex items-center gap-4 p-5 border border-[#5C1F1C]/20 rounded-2xl hover:border-[#5C1F1C]/40 transition-all bg-white/50 backdrop-blur-sm"
+                                className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 border border-[#5C1F1C]/20 rounded-xl sm:rounded-2xl hover:border-[#5C1F1C]/40 transition-all bg-white/50 backdrop-blur-sm"
                               >
-                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-[#FFC727] to-[#FFD700]" />
+                                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-[# event.category === 'tournament' ? '#FFC727' : '#FF8C42'] to-[#FFD700] flex-shrink-0" />
                                 <div className="flex-1">
-                                  <h4 className="font-bold text-lg" style={{ color: primaryColor }}>
+                                  <h4 className="font-bold text-base sm:text-lg" style={{ color: primaryColor }}>
                                     {event.title}
                                   </h4>
-                                  <div className="flex gap-4 text-sm text-gray-600 mt-1">
+                                  <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-gray-600 mt-1">
                                     <div className="flex items-center gap-1">
-                                      <Clock className="w-4 h-4" />
+                                      <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                                       {event.time}
                                     </div>
                                     <div className="flex items-center gap-1">
-                                      <MapPin className="w-4 h-4" />
-                                      {event.location}
+                                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+                                      <span className="line-clamp-1">{event.location}</span>
                                     </div>
                                   </div>
                                 </div>
                                 <Button
                                   variant="outline"
-                                  className="border-[#5C1F1C] text-[#5C1F1C] hover:bg-[#5C1F1C] hover:text-white font-medium"
+                                  className="border-[#5C1F1C] text-[#5C1F1C] hover:bg-[#5C1F1C] hover:text-white text-xs sm:text-sm font-medium mt-2 sm:mt-0"
                                 >
                                   View
                                 </Button>
@@ -404,7 +422,7 @@ export default function EventsPage() {
                               ? e.date === format(selectedDate, "yyyy-MM-dd")
                               : true
                           ).length === 0 && (
-                            <p className="text-center text-gray-500 py-12 text-lg">
+                            <p className="text-center text-gray-500 py-10 sm:py-12 text-base sm:text-lg">
                               No events on this date.
                             </p>
                           )}

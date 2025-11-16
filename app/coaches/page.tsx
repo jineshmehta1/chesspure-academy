@@ -14,7 +14,6 @@ import {
   Target,
   Brain,
   Award,
-  Filter,
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
@@ -57,6 +56,7 @@ function ThreeDCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       {children}
     </motion.div>
@@ -121,94 +121,98 @@ export default function CoachesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Hero Section */}
+      {/* Hero Section - Responsive */}
       <section
-        className="relative py-40 text-white overflow-hidden"
+        className="relative py-30 sm:py-28 md:py-36 lg:py-40 text-white overflow-hidden"
         style={{
           backgroundImage: 'url("/coachbg.png")',
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/70 " />
-        <div className="max-w-6xl mx-auto text-center relative z-10 px-4">
-          <Badge className="mb-6 text-lg" style={{ backgroundColor: accentColor, color: primaryColor }}>
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="max-w-7xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
+          <Badge
+            className="mb-3 text-xs sm:mb-4 sm:text-sm md:mb-6 md:text-lg"
+            style={{ backgroundColor: accentColor, color: primaryColor }}
+          >
             Meet Our Team
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-3 sm:mb-4 md:mb-6 leading-tight">
             Our Expert Coaches
           </h1>
-          <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl max-w-4xl mx-auto leading-relaxed mb-6 sm:mb-8 md:mb-10 opacity-90">
             Learn from titled players and proven mentors who’ve trained national champions.
           </p>
         </div>
       </section>
 
-      {/* Coaches Grid - #5C1F1C GLASS CARDS (Same as Events) */}
-      <section className="py-16 px-4">
+      {/* Coaches Grid - Responsive 3D Glass Cards */}
+      <section className="py-10 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
             {coaches.map((coach, i) => (
               <motion.div
                 key={coach.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
+                className="h-full"
               >
-                <ThreeDCard className="h-full rounded-3xl overflow-hidden shadow-2xl">
+                <ThreeDCard className="h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                   <div
-                    className="bg-[#5C1F1C] p-1.5 rounded-3xl h-full"
-                    style={{
-                      background: `linear-gradient(135deg, #5C1F1C 0%, #8B4513 100%)`,
-                    }}
+                    className="bg-gradient-to-br from-[#5C1F1C] to-[#8B4513] p-1 sm:p-1.5 rounded-2xl sm:rounded-3xl h-full"
                   >
-                    <div className="bg-white/95 backdrop-blur-xl rounded-3xl h-full overflow-hidden">
+                    <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl h-full overflow-hidden flex flex-col">
                       {/* Image */}
-                      <div className="relative h-72">
+                      <div className="relative h-48 sm:h-56 md:h-64 lg:h-72">
                         <Image
                           src={coach.image}
                           alt={coach.name}
                           fill
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 50vw"
                         />
-                        <div className="absolute top-4 right-4">
-                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs">
+                        <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                          <Badge className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-xs sm:text-sm">
                             {coach.title.split(" ")[0]}
                           </Badge>
                         </div>
                       </div>
 
                       {/* Content */}
-                      <div className="p-6 text-gray-800">
-                        <h3 className="text-2xl md:text-3xl font-extrabold mb-1 text-[#5C1F1C] drop-shadow">
+                      <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                        <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold mb-1 text-[#5C1F1C] line-clamp-1">
                           {coach.name}
                         </h3>
-                        <p className="text-[#FFC727] font-semibold text-lg mb-4">
+                        <p className="text-[#FFC727] font-semibold text-sm sm:text-base md:text-lg mb-3 sm:mb-4 line-clamp-1">
                           {coach.title}
                         </p>
 
-                        <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 leading-relaxed line-clamp-3 sm:line-clamp-4">
                           {coach.bio}
                         </p>
 
-                        <div className="grid grid-cols-2 gap-4 mb-6">
-                          <div className="text-center bg-gradient-to-br from-[#5C1F1C]/10 to-[#8B4513]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
-                            <Calendar className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
+                        {/* Stats Grid */}
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                          <div className="text-center bg-gradient-to-br from-[#5C1F1C]/10 to-[#8B4513]/10 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-[#5C1F1C]/20">
+                            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 mx-auto mb-1 sm:mb-2 text-[#5C1F1C]" />
                             <p className="text-xs font-medium text-gray-600">Experience</p>
-                            <p className="font-bold text-[#5C1F1C] text-lg">{coach.experience}</p>
+                            <p className="font-bold text-[#5C1F1C] text-sm sm:text-base lg:text-lg">{coach.experience}</p>
                           </div>
-                          <div className="text-center bg-gradient-to-br from-[#8B4513]/10 to-[#A0522D]/10 rounded-xl p-4 border border-[#5C1F1C]/20">
-                            <Users className="w-7 h-7 mx-auto mb-2 text-[#5C1F1C]" />
+                          <div className="text-center bg-gradient-to-br from-[#8B4513]/10 to-[#A0522D]/10 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-[#5C1F1C]/20">
+                            <Users className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 mx-auto mb-1 sm:mb-2 text-[#5C1F1C]" />
                             <p className="text-xs font-medium text-gray-600">Students</p>
-                            <p className="font-bold text-[#5C1F1C] text-lg">{coach.students}</p>
+                            <p className="font-bold text-[#5C1F1C] text-sm sm:text-base lg:text-lg">{coach.students}</p>
                           </div>
                         </div>
 
-                        <div className="mb-6">
-                          <h4 className="text-sm font-bold mb-3 flex items-center gap-2 text-[#FFC727]">
-                            <Target className="w-5 h-5" /> Specializations
+                        {/* Specializations */}
+                        <div className="mb-4 sm:mb-6">
+                          <h4 className="text-xs sm:text-sm font-bold mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2 text-[#FFC727]">
+                            <Target className="w-4 h-4 sm:w-5 sm:h-5" /> Specializations
                           </h4>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
                             {coach.specialization.map((spec, idx) => (
                               <Badge
                                 key={idx}
@@ -220,25 +224,27 @@ export default function CoachesPage() {
                           </div>
                         </div>
 
-                        <div>
-                          <h4 className="text-sm font-bold mb-3 flex items-center gap-2 text-[#FFC727]">
-                            <Trophy className="w-5 h-5" /> Key Achievements
+                        {/* Achievements */}
+                        <div className="mb-4 sm:mb-6">
+                          <h4 className="text-xs sm:text-sm font-bold mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2 text-[#FFC727]">
+                            <Trophy className="w-4 h-4 sm:w-5 sm:h-5" /> Key Achievements
                           </h4>
-                          <div className="space-y-2">
+                          <div className="space-y-1.5 sm:space-y-2">
                             {coach.achievements.map((ach, idx) => (
-                              <div key={idx} className="flex items-center gap-2 text-xs text-gray-700">
-                                <Award className="w-4 h-4 text-[#5C1F1C]" />
+                              <div key={idx} className="flex items-center gap-1.5 sm:gap-2 text-xs text-gray-700">
+                                <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#5C1F1C]" />
                                 <span>{ach}</span>
                               </div>
                             ))}
                           </div>
                         </div>
 
-                        <Link href="/contact" className="block mt-6">
+                        {/* CTA Button */}
+                        <Link href="/contact" className="block mt-auto">
                           <Button
-                            className="w-full bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-lg py-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+                            className="w-full bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] font-bold text-sm sm:text-base py-5 sm:py-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
                           >
-                            Book Trial <ArrowRight className="ml-2 w-5 h-5" />
+                            Book Trial <ArrowRight className="ml-1.5 w-4 h-4 sm:ml-2 sm:w-5 sm:h-5" />
                           </Button>
                         </Link>
                       </div>
@@ -251,13 +257,13 @@ export default function CoachesPage() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 px-4 bg-white/60 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-16" style={{ color: primaryColor }}>
+      {/* Why Choose Us - Responsive */}
+      <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 lg:mb-16" style={{ color: primaryColor }}>
             Why Choose Our Coaches?
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 icon: Star,
@@ -277,16 +283,16 @@ export default function CoachesPage() {
             ].map((feature, index) => (
               <Card
                 key={index}
-                className="bg-white/90 backdrop-blur-md border border-[#5C1F1C]/10 hover:border-[#5C1F1C]/30 p-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+                className="bg-white/90 backdrop-blur-md border border-[#5C1F1C]/10 hover:border-[#5C1F1C]/30 p-5 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
               >
                 <CardContent className="p-0 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-[#5C1F1C]/10 rounded-2xl flex items-center justify-center">
-                    <feature.icon className="w-9 h-9" style={{ color: primaryColor }} />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-auto mb-4 sm:mb-5 lg:mb-6 bg-[#5C1F1C]/10 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                    <feature.icon className="w-7 h-7 sm:w-8 sm:h-8 lg:w-9 lg:h-9" style={{ color: primaryColor }} />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4" style={{ color: primaryColor }}>
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4" style={{ color: primaryColor }}>
                     {feature.title}
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">{feature.description}</p>
+                  <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -294,19 +300,19 @@ export default function CoachesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-4">
+      {/* CTA Section - Responsive */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-8" style={{ color: primaryColor }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 sm:mb-6 lg:mb-8" style={{ color: primaryColor }}>
             Ready to Start Learning?
           </h2>
-          <p className="text-xl text-gray-700 mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8 lg:mb-10 leading-relaxed">
             Book a <strong className="text-[#5C1F1C]">free trial session</strong> with any coach. First 30 minutes on us.
           </p>
           <Link href="/contact">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] px-12 py-8 text-xl font-bold rounded-full shadow-2xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FFC727] to-[#FFD700] text-[#5C1F1C] px-8 sm:px-10 lg:px-12 py-6 sm:py-7 lg:py-8 text-base sm:text-lg lg:text-xl font-bold rounded-full shadow-2xl hover:shadow-yellow-500/40 transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
             >
               Book Free Trial
             </Button>
