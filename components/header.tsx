@@ -5,6 +5,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { AuthNav } from "./auth-nav";
 
 interface NavItem {
   name: string;
@@ -126,8 +127,15 @@ export function Header() {
                   )}
                 </div>
               ))}
+              
+              <AuthNav />
             </nav>
 
+            {/* Mobile Menu Button and Auth Nav */}
+            <div className="lg:hidden flex items-center gap-2">
+              <AuthNav />
+            </div>
+            
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

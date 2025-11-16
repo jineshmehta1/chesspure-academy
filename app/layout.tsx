@@ -29,8 +29,8 @@ export default function RootLayout({
           <Header />
           <Suspense fallback={null}>{children}</Suspense>
           <Footer />
-          <Analytics />
         </Providers>
+        <Analytics />
       </body>
     </html>
   )

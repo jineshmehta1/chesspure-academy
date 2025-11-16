@@ -64,6 +64,7 @@ model VerificationToken {
 model Payment {
   id              String        @id @default(cuid())
   userId          String
+  stage           Stage
   amount          Float
   currency        String        @default("usd")
   status          PaymentStatus @default(PENDING)

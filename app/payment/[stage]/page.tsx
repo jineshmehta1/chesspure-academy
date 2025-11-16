@@ -82,8 +82,7 @@ export default function PaymentPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          paymentId: data.paymentId,
-          stage
+          paymentId: data.paymentId
         })
       })
 

@@ -29,16 +29,23 @@ export default function PuzzlePage() {
 
   const fetchPuzzle = async () => {
     try {
-      const response = await fetch('/api/puzzles')
-      const puzzles = await response.json()
-      const currentPuzzle = puzzles.find((p: any) => p.id === params.id)
+      const response = await fetch(`/api/puzzles/${params.id}/details`)
       
-      if (currentPuzzle) {
-        setPuzzle(currentPuzzle)
-        const chessGame = new Chess(currentPuzzle.fen)
-        setGame(chessGame)
-        setFen(currentPuzzle.fen)
+      if (!response.ok) {
+        if (response.status === 403) {
+          alert('You do not have access to this puzzle. Please upgrade your stage.')
+          router.push('/learn')
+          return
+        }
+        throw new Error('Failed to fetch puzzle')
       }
+      
+      const currentPuzzle = await response.json()
+      
+      setPuzzle(currentPuzzle)
+      const chessGame = new Chess(currentPuzzle.fen)
+      setGame(chessGame)
+      setFen(currentPuzzle.fen)
     } catch (error) {
       console.error('Error fetching puzzle:', error)
     } finally {

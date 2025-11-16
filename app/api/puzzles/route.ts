@@ -6,30 +6,61 @@ import { prisma } from '@/lib/prisma'
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    const { searchParams } = new URL(req.url)
-    const stage = searchParams.get('stage')
+    
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Please sign in to access puzzles.' },
+        { status: 401 }
+      )
+    }
 
-    const where = stage ? { stage: stage as any } : {}
+    const { searchParams } = new URL(req.url)
+    const requestedStage = searchParams.get('stage')
+    const userStage = session.user.stage
+
+    const accessibleStages = []
+    if (userStage === 'BEGINNER') accessibleStages.push('BEGINNER')
+    if (userStage === 'INTERMEDIATE') accessibleStages.push('BEGINNER', 'INTERMEDIATE')
+    if (userStage === 'ADVANCED') accessibleStages.push('BEGINNER', 'INTERMEDIATE', 'ADVANCED')
+
+    if (requestedStage && !accessibleStages.includes(requestedStage)) {
+      return NextResponse.json(
+        { error: 'Access denied. Upgrade your stage to access this content.' },
+        { status: 403 }
+      )
+    }
+
+    const where = requestedStage 
+      ? { stage: requestedStage as any }
+      : { stage: { in: accessibleStages } }
 
     const puzzles = await prisma.puzzle.findMany({
       where,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        stage: true,
+        difficulty: true,
+        category: true,
+        order: true,
+        fen: true,
+        createdAt: true,
+        updatedAt: true
+      },
       orderBy: [{ stage: 'asc' }, { order: 'asc' }]
     })
 
-    if (session?.user) {
-      const progress = await prisma.progress.findMany({
-        where: { userId: session.user.id }
-      })
+    const progress = await prisma.progress.findMany({
+      where: { userId: session.user.id }
+    })
 
-      const puzzlesWithProgress = puzzles.map((puzzle: any) => ({
-        ...puzzle,
-        userProgress: progress.find((p: any) => p.puzzleId === puzzle.id)
-      }))
+    const puzzlesWithProgress = puzzles.map((puzzle: any) => ({
+      ...puzzle,
+      userProgress: progress.find((p: any) => p.puzzleId === puzzle.id)
+    }))
 
-      return NextResponse.json(puzzlesWithProgress)
-    }
-
-    return NextResponse.json(puzzles)
+    return NextResponse.json(puzzlesWithProgress)
   } catch (error) {
     console.error('Error fetching puzzles:', error)
     return NextResponse.json(

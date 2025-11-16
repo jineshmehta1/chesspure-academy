@@ -69,9 +69,11 @@ export default function LearnPage() {
   
   const stageData = stages.map(stage => {
     const stagePuzzles = puzzles.filter(p => p.stage === stage)
-    const hasAccess = userStage === stage || 
-                     (stage === 'BEGINNER' && userStage !== 'NONE') ||
-                     (stage === 'INTERMEDIATE' && userStage === 'ADVANCED')
+    
+    let hasAccess = false
+    if (userStage === 'BEGINNER' && stage === 'BEGINNER') hasAccess = true
+    if (userStage === 'INTERMEDIATE' && (stage === 'BEGINNER' || stage === 'INTERMEDIATE')) hasAccess = true
+    if (userStage === 'ADVANCED') hasAccess = true
     
     return {
       name: stage.charAt(0) + stage.slice(1).toLowerCase(),
