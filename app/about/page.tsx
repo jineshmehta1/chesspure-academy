@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,27 +30,47 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function AboutPage() {
+  const [radius, setRadius] = useState(260);
+
+  useEffect(() => {
+    // Set radius based on window width only on client side
+    const handleResize = () => {
+      setRadius(window.innerWidth < 768 ? 140 : 260);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section
-  className="relative py-40 text-white overflow-hidden"
-  style={{
-    backgroundImage: 'url("/aboutbg.png")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  }}
->
+        className="relative py-40 text-white overflow-hidden"
+        style={{
+          backgroundImage: 'url("/aboutbg.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="absolute inset-0 bg-black/60" />
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <Badge className="mb-6 text-lg" style={{ backgroundColor: "#FFC727", color: "#5C1F1C" }}>
+          <Badge
+            className="mb-6 text-lg"
+            style={{ backgroundColor: "#FFC727", color: "#5C1F1C" }}
+          >
             Discover Our Journey
           </Badge>
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
             Welcome to <span style={{ color: "#FFC727" }}>Chesspure Academy</span>
           </h1>
           <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-10 opacity-90">
-            Empowering minds through the ancient game of chess, we cultivate strategic thinkers, problem solvers, and future champions.
+            Empowering minds through the ancient game of chess, we cultivate
+            strategic thinkers, problem solvers, and future champions.
           </p>
 
           <DropdownMenu>
@@ -63,17 +84,26 @@ export default function AboutPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-60 bg-white border border-gray-200 shadow-xl rounded-lg mt-2">
               <DropdownMenuItem asChild>
-                <Link href="/contact" className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]">
+                <Link
+                  href="/contact"
+                  className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]"
+                >
                   <Mail className="mr-3 h-5 w-5" /> Contact Us
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/coaches" className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]">
+                <Link
+                  href="/coaches"
+                  className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]"
+                >
                   <UserCheck className="mr-3 h-5 w-5" /> Our Coaches
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/blogs" className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]">
+                <Link
+                  href="/blogs"
+                  className="flex items-center px-4 py-3 text-gray-700 hover:bg-[#FFC727]/20 hover:text-[#5C1F1C]"
+                >
                   <FileText className="mr-3 h-5 w-5" /> Blogs & Articles
                 </Link>
               </DropdownMenuItem>
@@ -91,7 +121,8 @@ export default function AboutPage() {
                 <Target className="w-14 h-14 mb-6 text-[#FFC727] group-hover:rotate-12 transition-transform duration-300" />
                 <h3 className="text-3xl font-bold mb-4">Our Mission</h3>
                 <p className="text-lg leading-relaxed opacity-90">
-                  To deliver world-class chess education that builds strategic thinking, resilience, and a lifelong love for the game — preparing students for success in life.
+                  To deliver world-class chess education that builds strategic thinking, resilience,
+                  and a lifelong love for the game — preparing students for success in life.
                 </p>
               </CardContent>
             </Card>
@@ -101,7 +132,8 @@ export default function AboutPage() {
                 <Star className="w-14 h-14 mb-6 text-[#FFC727] group-hover:scale-125 transition-transform duration-300" />
                 <h3 className="text-3xl font-bold mb-4">Our Vision</h3>
                 <p className="text-lg leading-relaxed opacity-90">
-                  To be India’s leading chess academy, producing grandmasters and innovative thinkers who shape the future of the game and society.
+                  To be India’s leading chess academy, producing grandmasters and innovative thinkers
+                  who shape the future of the game and society.
                 </p>
               </CardContent>
             </Card>
@@ -133,9 +165,7 @@ export default function AboutPage() {
                   <div className="text-4xl font-bold mb-2" style={{ color: "#5C1F1C" }}>
                     {stat.number}
                   </div>
-                  <div className="text-lg font-semibold text-gray-700">
-                    {stat.label}
-                  </div>
+                  <div className="text-lg font-semibold text-gray-700">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -173,9 +203,8 @@ export default function AboutPage() {
                 { icon: BookOpen, title: "Continuous Learning", color: "bg-orange-600" },
               ].map((item, index) => {
                 const angle = (index * 60) - 90;
-                const radius = window.innerWidth < 768 ? 140 : 260;
-                const x = radius * Math.cos(angle * Math.PI / 180);
-                const y = radius * Math.sin(angle * Math.PI / 180);
+                const x = radius * Math.cos((angle * Math.PI) / 180);
+                const y = radius * Math.sin((angle * Math.PI) / 180);
 
                 return (
                   <div
@@ -189,12 +218,12 @@ export default function AboutPage() {
                     }}
                   >
                     <Card className="w-full h-full rounded-xl shadow-xl flex flex-col items-center justify-center text-center p-3 md:p-4 bg-white text-gray-800 border-4 border-white hover:scale-110 transition-transform duration-300">
-                      <div className={`${item.color} rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center mx-auto mb-2`}>
+                      <div
+                        className={`${item.color} rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center mx-auto mb-2`}
+                      >
                         <item.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                       </div>
-                      <h4 className="text-xs md:text-sm font-semibold leading-tight">
-                        {item.title}
-                      </h4>
+                      <h4 className="text-xs md:text-sm font-semibold leading-tight">{item.title}</h4>
                     </Card>
                   </div>
                 );
@@ -348,17 +377,13 @@ export default function AboutPage() {
                 </p>
               </Card>
               <Card className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 p-8 rounded-xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                <h3 className="text-3xl font-bold mb-4 text-green-800">
-                  Personalized Learning
-                </h3>
+                <h3 className="text-3xl font-bold mb-4 text-green-800">Personalized Learning</h3>
                 <p className="text-lg text-gray-700">
                   Every student gets a custom training plan based on their style and goals.
                 </p>
               </Card>
               <Card className="bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-200 p-8 rounded-xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                <h3 className="text-3xl font-bold mb-4 text-yellow-800">
-                  Engaging Curriculum
-                </h3>
+                <h3 className="text-3xl font-bold mb-4 text-yellow-800">Engaging Curriculum</h3>
                 <p className="text-lg text-gray-700">
                   From beginner to grandmaster — fun, challenging, and rewarding.
                 </p>
@@ -417,9 +442,7 @@ export default function AboutPage() {
                 className="bg-white text-gray-800 p-10 rounded-2xl shadow-lg hover:bg-[#FFC727]/10 transform hover:-translate-y-2 transition-all duration-300 group"
               >
                 <CardContent className="p-0 flex flex-col items-center">
-                  <div className="mb-6 group-hover:scale-110 transition-transform">
-                    {value.icon}
-                  </div>
+                  <div className="mb-6 group-hover:scale-110 transition-transform">{value.icon}</div>
                   <h3 className="text-3xl font-bold mb-4" style={{ color: "#5C1F1C" }}>
                     {value.title}
                   </h3>
