@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-10-29.clover'
-})
+import crypto from 'crypto'
 
 const DEMO_MODE = process.env.DEMO_MODE === 'true'
 
@@ -21,19 +17,34 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { paymentId } = await req.json()
+    // 1. Get Razorpay details from frontend
+    const { 
+      razorpay_payment_id, 
+      razorpay_order_id, 
+      razorpay_signature 
+    } = await req.json()
 
+    if (!razorpay_order_id || !razorpay_payment_id) {
+       return NextResponse.json(
+        { error: 'Missing payment details' },
+        { status: 400 }
+      )
+    }
+
+    // 2. Find the PENDING payment record using the Order ID
+    // Note: Ensure your Prisma schema has an 'orderId' field with @unique
     const payment = await prisma.payment.findUnique({
-      where: { id: paymentId }
+      where: { orderId: razorpay_order_id } 
     })
 
     if (!payment) {
       return NextResponse.json(
-        { error: 'Payment not found' },
+        { error: 'Payment order not found' },
         { status: 404 }
       )
     }
 
+    // 3. Security Checks
     if (payment.userId !== session.user.id) {
       return NextResponse.json(
         { error: 'Unauthorized - payment belongs to different user' },
@@ -48,49 +59,35 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    if (!payment.stripePaymentId) {
-      return NextResponse.json(
-        { error: 'Invalid payment - no Stripe reference' },
-        { status: 400 }
-      )
-    }
-
+    // 4. Verify Signature (Replacing Stripe Intent check)
     if (!DEMO_MODE) {
-      try {
-        const paymentIntent = await stripe.paymentIntents.retrieve(
-          payment.stripePaymentId
-        )
+      const generatedSignature = crypto
+        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
+        .update(razorpay_order_id + '|' + razorpay_payment_id)
+        .digest('hex')
 
-        if (paymentIntent.status !== 'succeeded') {
-          return NextResponse.json(
-            { error: 'Payment not completed. Please complete the payment before accessing content.' },
-            { status: 400 }
-          )
-        }
-
-        if (paymentIntent.metadata.userId !== session.user.id) {
-          return NextResponse.json(
-            { error: 'Payment user mismatch' },
-            { status: 403 }
-          )
-        }
-      } catch (error) {
-        console.error('Error verifying payment with Stripe:', error)
+      if (generatedSignature !== razorpay_signature) {
         return NextResponse.json(
-          { error: 'Failed to verify payment with Stripe' },
-          { status: 500 }
+          { error: 'Invalid payment signature. Potential fraud attempt.' },
+          { status: 400 }
         )
       }
     }
 
     const purchasedStage = payment.stage
 
+    // 5. Database Transaction (Keep your exact business logic)
     await prisma.$transaction(async (tx: any) => {
+      // Update Payment to COMPLETED and save the Razorpay Payment ID
       await tx.payment.update({
-        where: { id: paymentId },
-        data: { status: 'COMPLETED' }
+        where: { id: payment.id },
+        data: { 
+          status: 'COMPLETED',
+          paymentId: razorpay_payment_id // Storing the actual txn ID
+        }
       })
 
+      // Create/Update Enrollment
       await tx.enrollment.upsert({
         where: {
           userId_stage: {
@@ -105,6 +102,7 @@ export async function POST(req: NextRequest) {
         }
       })
 
+      // Calculate New Stage (Your original logic preserved)
       let newUserStage = session.user.stage
       if (purchasedStage === 'BEGINNER' && newUserStage === 'NONE') {
         newUserStage = 'BEGINNER'
@@ -114,6 +112,7 @@ export async function POST(req: NextRequest) {
         newUserStage = 'ADVANCED'
       }
 
+      // Update User
       await tx.user.update({
         where: { id: session.user.id },
         data: { stage: newUserStage }
